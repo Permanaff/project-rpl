@@ -17,12 +17,12 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
-CORS(app, origins=['http://127.0.0.1:4000', 'https://a4a2-202-51-208-50.ngrok-free.app'])
+CORS(app, origins=['http://127.0.0.1:4000'])
 
 core = CoreApi(
     is_production=False,
-    server_key= 'SB-Mid-server-MkWPtSUBmoSSOJ4UkdcyilCC',
-    client_key='SB-Mid-client-DG3O1SszFRlzErbv'
+    server_key= '<Your Server Key>',
+    client_key='<Your Client Key>'
 )
 
 app.config['MYSQL_HOST'] = 'localhost'

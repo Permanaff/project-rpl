@@ -15,7 +15,7 @@ import qrcode
 
 
 app = Flask(__name__)
-CORS(app, origins=['http://127.0.0.1:5000', 'https://permanaff.pythonanywhere.com'])
+CORS(app, origins=['http://127.0.0.1:5000'])
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config["MYSQL_USER"] = 'root'
@@ -28,8 +28,8 @@ bcrypt = Bcrypt(app)
 
 core = CoreApi(
     is_production=False,
-    server_key= 'SB-Mid-server-MkWPtSUBmoSSOJ4UkdcyilCC',
-    client_key='SB-Mid-client-DG3O1SszFRlzErbv'
+    server_key= '<Your Server Key>',
+    client_key='<Your Client Key>'
 )
 
 

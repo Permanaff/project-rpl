@@ -1,0 +1,323 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<style>
+    /* body {
+        background-color:#fafafa;
+      } */
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    .alignMe p {
+        display: inline-block;
+        width: 30%;
+        position: relative;
+        padding-right: 5px; 
+        margin-bottom: 5px;
+    }
+
+    .alignMe p::after {
+        content: ":";
+        position: absolute;
+        right: 10px;
+    }
+
+    .qr-row img {
+        width: 40%;
+    }
+
+    .card-header {
+        padding-right: 0px !important;
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+
+    .card {
+        width: 550px;
+    }
+
+    .card-header, .card-footer {
+        background-color: white;
+    }
+
+    .fa-clipboard {
+        font-size: 15px;
+        align-items: center;
+    }
+
+    .pending-header .fs-4 {
+        margin-bottom: 1px !important;
+    }
+    .pending-header .fs-6  {
+        margin-bottom: 1px !important;
+    }
+        
+    .btn-clipboard {
+        font-size: 12px;
+    
+    }
+
+    .clock-icon {
+        font-size: 80px;
+        color: #0d6efd;
+    }
+
+    section {
+        background-color: #f7f9fd;
+    
+    }
+    
+    .fs-5, .fs-6 {
+        margin: 0px;
+    }
+
+    .fa-ban {
+        font-size: 50px;
+        justify-content: center;
+    }
+    .fs-7 {
+        font-size: 12px;
+    }
+
+    .danger {
+        color: #dc3545;
+    }
+
+    .btn-clipboard {
+        width: 70px;
+    }
+
+
+
+
+
+
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+<section class="py-3 mt-5">
+    <div class="container mx-auto">
+        <div class="container my-2 d-flex justify-content-center">
+                <div class="card border-0 card-detail visually-hidden">
+                    <div class="card-header d-flex justify-content-center ps-0" style="background-color: white;" >
+                        
+                    </div>
+    
+                    
+                    <div class="card-body mx-2" id="capture">
+                        <p class="fw-bold" style="font-size: 18px;">Detail Transaksi</p>
+                        <ul class="alignMe">
+                            <li><p style="font-size: 14px;">Date</p><span id="tanggal_booking"></span></li>
+                            <li><p style="font-size: 14px;">Booking Code</p><span id="id_booking"></span> </li>
+                            <li><p style="font-size: 14px;">Judul Film</p><span id="title"></span></li>
+                            <li><p style="font-size: 14px;">No. Seat</p><span id="no_seat"></span></li>
+                            <li><p style="font-size: 14px;">Showtimes</p><span id="movie-time"></span></li>
+                            <li><p style="font-size: 14px;">Drink</p><span id="drink"></span></li>
+                            <!-- <li><p style="font-size: 14px;">Reedemed Time</p> 09-03-2022 11:54</li> -->
+                        </ul>
+                        <hr class="hr">
+                        <div class="row">
+                            <div class="col">
+                                <p class="fs-6 fw-bold">Total Payment</p>
+                            </div>
+                            <div class="col text-end">
+                                <div class="fs-6 fw-bold" id="total-price"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary w-100" id="btn-download">Download</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</section>
+
+
+{%endblock%}
+
+{%block scripts%}
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@0.5.0-beta4/dist/html2canvas.min.js"></script>
+<script>
+    let id_booking;
+    $(document).ready(function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        // id_booking = urlParams.get('booking_id');
+        id_booking = urlParams.get('order_id');
+        booking_data()
+
+
+        $('#btn-download').on('click', function() {
+            $('.card-footer').addClass('visually-hidden')
+            html2canvas($('.card')[0]).then(function(canvas) {
+                var link = document.createElement('a');
+                link.download = 'transaction_'+id_booking+'.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+            $('.card-footer').removeClass('visually-hidden')
+        });
+
+        $('.btn-clipboard').click(function(){
+            navigator.clipboard.writeText($('.va').text())
+        })
+    });
+
+    const formatRupiah = (amount) => {
+        return amount.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+    };
+
+    let booking_data = () => {
+        fetch('http://127.0.0.1:4000/get-transaction/'+id_booking, {method: 'POST'})
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Terjadi kesalahan saat mengirim data.');
+              }
+              return response.json();
+          })
+          .then(data => {
+                const bookingDetail = data.booking_detail[0];
+                let imageURL = "static/images/qrcode/temp_qr_"+bookingDetail.id_booking+".png"
+                let date = new Date(bookingDetail.tanggal_booking)
+                let month = date.toLocaleString('default', { month: 'short' });
+
+                // bookingDetail.status === 'success' ? ($('#qr-code').attr('src', imageURL), $('.card-header').removeClass('visually-hidden')) : $('.card-header').remove();
+
+                if (bookingDetail.status === 'success') {
+                    $('#qr-code').attr('src', imageURL)
+                    $('.card-header').append(`
+                        <div class="row qr-row d-flex justify-content-center">
+                            <img src="" id="qr-code" alt="qr-code" width="40%">
+                            <div class="row">
+                                <p class="fs-6">Please scan the qr code to print the ticket in NSC.</p>        
+                            </div>
+                        </div>
+                    `)
+
+                } else if (bookingDetail.status === 'pending') {
+                    $('.card-header').empty()
+
+                    $('.card-header').append(`
+                        <div class="row text-center pending-header d-flex justify-content-center" style="width: 500px;"> 
+                            <i class="fa-regular fa-clock clock-icon my-3"></i>
+                            <p class="fs-4 fw-bold" style="color: #0d6efd;">Menunggu Pembayaran</p>
+                            <hr>
+                            <div id="kode-bayar" class="my-2"></div>
+                        </div>   
+                    `)
+                    
+                    bookingDetail.metode_bayar === 'virtual-account' ? (
+                        $('.pending-header').append(`
+                            <p class="fs-6">Virtual Account :</p>
+                            <p class="fs-4 fw-bold va">${bookingDetail.kode_bayar} </p>
+                            <button class="btn btn-outline-primary btn-clipboard my-1"><i class="fa-solid fa-clipboard"></i> Salin</button>
+                        `)
+                    ) : bookingDetail.metode_bayar === 'qris' ? (
+                        $('.pending-header').append(`
+                            <p class="fs-6">Qris :</p>
+                            <img class="qris-img w-75" src="https://api.sandbox.midtrans.com/v2/qris/${bookingDetail.kode_bayar}/qr-code" alt="qr_qris">
+                        `)
+                    ) : '';
+
+                    $('.pending-header').append(`<p class="">Lakukan Pembayaran Sebelum <span class="text-danger fw-bold">${bookingDetail.batas_bayar}</span></p> `)
+
+                    
+                    $('.card-footer').empty().append('<a href="/home" class="btn btn-primary w-100" id="btn-home">Kembali Ke Beranda</a>')
+
+
+                    
+
+
+                } else if (bookingDetail.status === 'expire') {
+                    $('.card-header').empty()
+                    $('.card-header').removeClass('d-flex justify-content-center ps-0')
+                    $('.card-header').append(`
+                        <div class="row">
+                            <div class="col">
+                                <p class="fs-5 text-start fw-bold danger">Dibatalkan</p>
+                                <p class="fs-6 text-start">Pada ${bookingDetail.batas_bayar}.</p>
+                                <p class="fs-7">Anda melewati batas waktu pembayaran transaksi. Silakan lakukan pemesanan ulang.</p>
+                            </div>
+                            <div class="col-3 d-flex align-items-center">
+                                <i class="fa-solid fa-ban danger"></i>
+                            </div>
+                        </div>
+                    `)
+
+                    $('.card-footer').empty().append(`<a href="/schedule-page/${bookingDetail.id_movie}" class="btn btn-primary w-100" id="btn-beliLagi">Beli Lagi</a>`)
+                } else {
+                    $('.card-header').empty()
+                    $('.card-header').removeClass('d-flex justify-content-center ps-0')
+                    $('.card-header').append(`
+                        <div class="row">
+                            <div class="col">
+                                <p class="fs-5 text-start fw-bold danger">Dibatalkan</p>
+                                <p class="fs-6 text-start">Pada ${bookingDetail.batas_bayar}.</p>
+                            </div>
+                            <div class="col-3 d-flex align-items-center">
+                                <i class="fa-solid fa-ban danger"></i>
+                            </div>
+                        </div>
+                    `)
+
+                    $('.card-footer').empty().append(`<a href="/schedule-page/${bookingDetail.id_movie}" class="btn btn-primary w-100" id="btn-beliLagi">Beli Lagi</a>`)
+                }
+
+                
+                $('#tanggal_booking').text(`${date.getDate()}-${month}-${date.getFullYear()}`)
+                $('#id_booking').text(bookingDetail.id_booking);
+                $('#title').text(bookingDetail.title)
+                $('#movie-time').text(bookingDetail.jam)
+                $('#total-price').text(formatRupiah(bookingDetail.total));
+                $('#drink').text(formatRupiah(bookingDetail.minuman));
+                
+                
+
+                const noSeats = bookingDetail.no_seat.join(', '); // Menggabungkan no_seat dengan koma
+                $('#no_seat').text(noSeats);
+
+                $('.card-detail').removeClass('visually-hidden')
+          })
+          .catch(error => {
+              console.log('Error:', error.message);
+          });
+    }
+
+    let get_qrcode = () => {
+        fetch('http://127.0.0.1:4000/get-qr-image/'+id_booking, {method:'POST'})
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('Failed to fetch image');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Mengubah blob menjadi URL objek
+                const imageURL = URL.createObjectURL(blob);
+
+                const imageElement = document.getElementById('qr-code');
+                imageElement.src = imageURL;
+                
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    
+
+
+</script>
+
+
+
+{%endblock%}

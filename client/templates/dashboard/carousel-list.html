@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <!-- Meta -->
+
+    <!-- Google Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <title>NSC - Dashboard</title>
+
+    <!-- Vendor CSS -->
+    <link href="/static/lib/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/static/css/style.min.css">
+    <link rel="stylesheet" href="/static/css/style-table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/css/perfect-scrollbar.min.css">
+
+    <!-- Uploader Plugin Jquery -->
+    <link rel="stylesheet" href="/static/jquery/jquery.uploader_carousel.css">
+
+    <style>
+        .custom-icon {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .table thead th {
+            color: black;
+        }
+
+        td button{
+          color: red;
+        }
+        
+        th, td {
+          text-align: center;
+        }
+
+        select {
+            margin: 0px;
+            height: 40px;
+        }
+
+        .custom-a {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* .custom-a span {
+            position: absolute;
+            top: 5px;
+        } */
+/* 
+        .custom-input {
+            height: 100px;
+            width: 100px;
+        } */
+
+        .input-image {
+            border: 2px dashed #ccc;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #img-preview {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .content-body {
+            min-height: 500px;
+        }
+
+        .btn.deleteContainer:focus {
+            outline: none;
+        }
+        .btn.deleteContainer {
+            float: right;
+            border: none;
+        }
+
+        .modal {
+          margin-left: 600px;
+        }
+
+
+
+
+
+
+    </style>
+  </head>
+  <body class="skin-base animate">
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+          <a href="/home" class="sidebar-logo-text d-flex justify-content-center">
+            <img src="/static/images/logo/logo.png" alt="" width="80%">
+          </a>
+        </div><!-- sidebar-header -->
+        <div class="sidebar-search">
+          <div class="search-body">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="form-control" placeholder="Search...">
+          </div><!-- search-body -->
+        </div><!-- sidebar-search -->
+        <div class="sidebar-body">
+          <ul class="nav-sidebar">
+            <li class="nav-item"><a href="/dashboard" class="nav-link"><span class="material-symbols-outlined custom-icon">dashboard</span><span>Dashboard</span></a></li>
+            <!-- <li class="nav-item active show">
+              <a href="" class="nav-link with-sub"><i data-feather="package"></i><span>Dashboard</span></a>
+              <nav class="nav-sub">
+                <a href="" class="sub-link active">Overview</a>
+                <a href="" class="sub-link">Insights</a>
+                <a href="" class="sub-link">Transactions</a>
+                <a href="" class="sub-link">Reports</a>
+              </nav>
+            </li> -->
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-film custom-icon"></i><span>Movies</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/movies-list" class="sub-link">Movie List</a>
+                <a href="/dashboard/add-movies" class="sub-link movie-add visually-hidden">Add Movie</a>
+              </nav>
+            </li>
+
+            <li class="nav-item"><a href="/dashboard/theater" class="nav-link"><i class="fa-solid fa-building custom-icon"></i><span>Theaters</span></a></li>
+
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-calendar custom-icon"></i><span>Schedule Theaters</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/schedule-list" class="sub-link">Schedule List</a>
+                <a href="/dashboard/add-schedule" class="sub-link">Add Schedule</a>
+              </nav>
+            </li>
+            <li class="nav-item active show">
+              <a href="/dashboard/add-carousel" id="add-carousel" class="nav-link with-sub visually-hidden"><i class="fa-regular fa-image custom-icon"></i><span>Carousel Content</span></a>
+              <nav class="nav-sub">
+                    <a href="/dashboard/carousel" class="sub-link active">Carousel List</a>
+                    <a href="/dashboard/add-carousel" class="sub-link">Add Carousel</a>
+              </nav>
+            </li>
+          </ul>
+  
+          <hr>
+  
+          <ul class="nav-sidebar">
+              <li class="nav-item"><a href="/dashboard/daftar-transaksi" class="nav-link"><i class="fa-solid fa-ticket custom-icon"></i><span>Daftar Transaksi</span></a></li>
+
+              <div class="visually-hidden" id="manage-account">
+                <li class="nav-item"><a href="/dashboard/laporan-penjualan" class="nav-link"><i class="fa-solid fa-chart-simple custom-icon"></i><span>Laporan Penjualan</span></a></li>
+                <li class="nav-item">
+                    <a href="" class="nav-link with-sub"><i data-feather="users"></i><span>Manage Accounts</span></a>
+                    <nav class="nav-sub">
+                      <a href="/dashboard/add-administrator" class="sub-link">Add Administrator</a>
+                      <a href="/dashboard/administrator-list" class="sub-link">Administrator List</a>
+                    </nav>
+                  </li>
+              </div>
+          </ul>
+  
+
+        </div><!-- sidebar-body -->
+        <div class="sidebar-footer">
+          <a href="" class="avatar online"><img src="/static/images/avatar/avatar.jpg" alt="" class="avatar-initial"></span></a>
+          <div class="avatar-body">
+            <div class="row">
+              <div class="col-9">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 id="nama-user"></h6>
+                </div>
+                <span id="tile-user"></span>
+              </div>
+              <div class="col-1 d-flex justify-content-center align-items-center">
+                  <a href="/logout" class="footer-menu"><i class="fa-solid fa-right-from-bracket custom-icon"></i></a>
+              </div>
+            </div>
+          </div><!-- avatar-body -->
+        </div><!-- sidebar-footer -->
+      </div><!-- sidebar -->
+  
+      <div class="content">
+        <div class="content-header">
+          <a id="contentMenu" href="#" class="content-menu d-none d-lg-flex"><i class="fa-solid fa-bars" style="font-size: 20px;"></i></a>
+          <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i data-feather="menu"></i></a>
+          <p class="fs-5 text-center">Carousel List</p>
+        </div><!-- content-header -->
+        <div class="content-body">
+            <div class="container col-md-10">
+                <div id="alert-container"></div>
+                <div id="input-container" class="mt-5">
+                  
+                </div>
+
+                
+                
+            </div>
+
+            
+            
+            
+
+
+            
+
+
+        </div><!-- content-body -->
+        <footer id="footer-bottom" class="border-top mt-5">
+            <p class="text-center mt-2" style="color: #BEBEBE;">&copy; 2024 New Star Cinplex | PT. Karya Media Jaya Bersama.</p>
+        </footer>
+      </div><!-- content -->
+
+
+      <!-- <div class="modal modal-sm fade" id="modal-delete" tabindex="-1" aria-labelledby="modal-delete" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+          <div class="modal-content rounded-0">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Select Tickets</h1>
+            </div>
+            <div class="modal-body">
+                
+              
+            </div>
+        </div>
+      </div> -->
+
+      <div class="modal modal-sm fade" tabindex="-1" id="modal-delete">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content rounded-0">
+            <div class="modal-header border-0">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h5 class="modal-title">Delete Carousel?</h5>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="btn-confirm">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="/static/jquery/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+    <script src="https://kit.fontawesome.com/fa29c2884b.js" crossorigin="anonymous"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/jquery/jquery.uploader.min.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+
+      <script>
+
+
+        $(document).ready(function () {
+          show_carousel()
+          // $('#modal-delete').modal('show')
+
+        });
+
+        let show_carousel = () => {
+          fetch('http://127.0.0.1:4000/get-carousel', {
+                method: 'POST',})
+            .then(response => response.json())
+            .then(response => {
+              const containerInput = $('#input-container')
+              let content = '';
+              console.log(response)
+              response.carousel.forEach((data, index) => {
+                content+= `
+                  <div class="input-image mt-5" id="input-image-${index}">
+                      <div class="mt-3 d-flex justify-content-center" id="img-preview-${index}">
+                          <img src="/static/images/carousel/${data.image_carousel}" alt="image-preview" width="90%">
+                      </div>        
+                      <div class="input-group mb-3 mt-3">
+                          <input type="text" class="visually-hidden" value="1" hidden>
+                          <input type="text" class="form-control title-input" id="judul-${index}" placeholder="Judul Carousel" value="${data.nama_carousel}" disabled>
+                          <label class="btn btn-outline-danger" type="button" id="inputGroupFileAddon03" onclick="delete_carousel(${data.id_carousel})">Delete</label>
+                          <label class="btn btn-outline-secondary deleteInput visually-hidden" type="button" id="deleteInput${index}"><i class="fas fa-trash"></i></label>
+                      </div>
+                    </div>
+                `
+              });
+              containerInput.append(content)
+            })
+            .catch(error => {
+                $('#alert-container').append('<div class="alert alert-danger" role="alert">Gagal Menambahkan Carousel!</div>');
+                console.error('Terjadi kesalahan:', error);
+            });
+        }
+
+
+        let delete_carousel = (id_carousel) => {
+          $('#modal-delete').modal('show')
+
+          $('#btn-confirm').off('click').on('click', function () {
+            $('#modal-delete').modal('hide')
+            fetch('http://127.0.0.1:4000/delete-carousel/'+id_carousel, {
+                method: 'POST',})
+            .then(response => response.json())
+            .then(response => {
+              $(`#input-image-${id_carousel}`).remove();
+              $(window).scrollTop(0);
+              $('#alert-container').append('<div class="alert alert-success" role="alert">Berhasil Menghapus Carousel!</div>');
+              
+            })
+            .catch(error => {
+                $('#alert-container').append('<div class="alert alert-danger" role="alert">Gagal Menghapus Carousel!</div>');
+                console.error('Terjadi kesalahan:', error);
+            });
+          });
+        }
+
+
+    
+
+
+        
+
+
+
+      </script>
+
+  </body>
+</html>

@@ -1,0 +1,178 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<!-- Midtrans -->
+<script type="text/javascript"src="https://app.sandbox.midtrans.com/snap/snap.js"data-client-key="SB-Mid-client-DG3O1SszFRlzErbv"></script>
+
+<!-- CSS Seat -->
+<link rel="stylesheet" href="/static/jquery/jquery.seat-charts.css">
+<style>
+    /* body {
+      font-family: 'Roboto', sans-serif;
+      background-color:#fafafa;
+    } */
+    a {
+      color: #b71a4c;
+    }
+    .front-indicator {
+      width: 345px;
+      height: 15px;
+      margin: 5px 32px 15px 150px;
+      background-color: #646464;	
+      color: #adadad;
+      text-align: center;
+      padding: 1px;
+      border-radius: 5px;
+      font-size: 10px;
+    }
+    /* .wrapper {
+      width: 100%;
+      text-align: center;
+      margin-top:150px;
+    } */
+    /* .container {
+      margin: 0 auto;
+      width: 500px;
+      text-align: left;
+    } */
+    .booking-details {
+      float: left;
+      text-align: left;
+      margin-left: 35px;
+      font-size: 12px;
+      position: relative;
+      height: 171px;
+    }
+    .booking-details h2 {
+      margin: 0px 0 10px 0;
+      font-size: 14px;
+    }
+    .booking-details h3 {
+      margin: 5px 5px 0 0;
+      font-size: 14px;
+    }
+    div.seatCharts-cell {
+      color: #182C4E;
+      height: 25px;
+      width: 25px;
+      line-height: 25px;
+      
+    }
+    div.seatCharts-seat {
+      color: #FFFFFF;
+      cursor: pointer;	
+    }
+    div.seatCharts-row {
+      height: 35px;
+    }
+    /* div.seatCharts-seat.available {
+      background-color: #B9DEA0;
+    
+    } */
+    div.seatCharts-seat.available.first-class {
+    /* 	background: url(vip.png); */
+      background-color: #3a78c3;
+    }
+    div.seatCharts-seat.focused {
+      background-color: #84abdb;
+    }
+    div.seatCharts-seat.selected {
+      background-color: #e3e32c;
+    }
+    div.seatCharts-seat.unavailable {
+      background-color: #472B34;
+    }
+    div.seatCharts-container {
+      width: 700px;
+      padding: 20px;
+      float: left;
+    }
+    div.seatCharts-legend {
+      padding-left: 0px;
+      bottom: 16px;
+    }
+    ul.seatCharts-legendList {
+      padding-left: 0px;
+    }
+    span.seatCharts-legendDescription {
+      margin-left: 5px;
+      line-height: 30px;
+    }
+    .checkout-button {
+      display: block;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    #selected-seats {
+      max-height: 90px;
+      overflow-y: scroll;
+      overflow-x: none;
+      width: 170px;
+    }
+
+    .card-body {
+      font-family: 'Roboto', sans-serif;
+    }
+
+    #title-movie {
+      font-size: 18px;
+    }
+
+
+</style>
+{%endblock%}
+
+{%block body%}
+<div class="container mt-5" id="main-container">
+    <div class="card" id="main-card">
+        <div class="card-header" style="background-color: white;">
+            <div class="container">
+
+                <div class="booking-details mt-3" id="booking-detail">
+                    <div id="title"></div>
+                    <h3>Seats (<span id="counter">0</span>):<span class="fw-bold" id="selected-seats"></span></h3>
+                    <div id="detail_all"></div>
+                    <h3>Total Pembayaran: <b><span id="total">Rp 0,00</span></b></h3>
+                    <!-- <h2 class="fw-bold" id="title-movie">Judul Film Disini</h2>
+                    <h3>Seats (<span id="counter">0</span>):<span class="fw-bold" id="selected-seats"></span></h3>
+                    <h3 id="cinema-name">Cinema : <span class="fw-bold" id="cinema">NSC Demak</span></h3>
+                    <h3 id="studio-name">Studio : <span id="studio" class="fw-bold">3</span></h3>
+                    <h3 id="datetime">
+                        <span id="date">Date :</span>
+                        <span id="time">Time :</span>
+                    </h3>
+                    <h3>Total Pembayaran: <b><span id="total">0</span></b></h3> -->
+                </div>  
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row" id='main-body'>
+
+            </div>     
+        </div>
+
+        <div class="card-footer" style="background-color: white;" id="list-drink">
+            <div class="container mx-2 my-2" id="drink-list">
+                
+
+            </div>
+        </div>
+        <div class="card-footer" style="background-color: white;">
+            <div class="container d-flex justify-content-end" id="btn-container">
+                <button class="btn btn-danger" id="confirm-btn">Confirm Order</button>
+            </div>
+        </div>
+    </div>
+    <!-- <div id='snap-container' style="width: 750px;"></div> -->
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/jquery/jquery.seat-charts.js"></script>   
+<script src="/static/js/studio1.js"></script>   
+
+
+{%endblock%}

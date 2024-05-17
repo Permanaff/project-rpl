@@ -1,0 +1,346 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+      }
+
+
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        flex-wrap: wrap;
+    }
+
+    .alignMe p {
+        display: inline-block;
+        width: 15%;
+        position: relative;
+        padding-right: 5px; 
+        margin-bottom: 5px;
+        
+    }
+
+        .alignMe p::after {
+        content: ":";
+        position: absolute;
+        right: 10px;
+    }
+
+    .alignMe li {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        text-align: justify;
+    }
+
+    .alignMe span {
+        font-size: 14px;
+    }
+
+    #sinopsis {
+        text-align: justify;
+    }
+
+    /* .card {
+        background-color: #f7f9fd;
+    } */
+
+    .p-custom {
+        color: #0d6efd;
+    }
+
+    p, h5, span, hr {
+        color: black;
+    }
+
+    .btn-custom { 
+        background-color: #0d6efd;
+        border: 0px;
+        
+    }
+    .btn-custom:hover,
+    .btn-custom:focus,
+    .btn-custom:active { 
+        background-color: #2064cc;
+        border: 0px;
+    }
+
+
+
+    .light-section {
+        background-color: #f7f9fd;
+    }
+
+    img {
+        border-radius: 5px;
+    }
+
+    .a {
+        color: white;
+    }
+
+    .schedule-box {
+        background-color: #f7f9fd;
+    }
+
+    .btn:disabled {
+        background-color: #f0f0f0; /* Warna latar belakang */
+        color: #3f5e7a; /* Warna teks */
+        border-color: #3f5e7a;
+    }
+
+    
+    
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+<section class="">
+    <div class="container mt-5">
+        <div class="card border-0">
+            <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                        <div class="movie mt-3 mb-3 text-center">
+                            <div class="advanced-movie"></div>
+                            <div class="poster-movie" id="poster-movie" style="width: 315.7px; height: 463.1px;">
+                                
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="col-6 ms-3">
+                        <div class="mt-3">
+                            <p class="fs-4 fw-bold p-custom " id="title" style="font-size: 25px;"></p>
+                            <ul class="alignMe">
+                                <li><p style="font-size: 14px;">Jenis Film</p> <span id="jenis-film"></span></li>
+                                <li><p style="font-size: 14px;">Produser</p> <span id="produser"></span></li>
+                                <li><p style="font-size: 14px;">Sutradara</p> <span id="sutradara"></span></li>
+                                <li><p style="font-size: 14px;">Penulis</p> <span id="penulis"></span></li>
+                                <li><p style="font-size: 14px;">Produksi</p> <span id="produksi"></span></li>
+                                <li><p style="font-size: 14px;">Cast</p> <span id="cast"></span></li>
+                            </ul>
+                            <hr class="hr">
+                            <p class="text-center fs-5 fw-bold" style="margin-bottom: 0px;">Sinopsis</p>
+                            <hr class="hr">
+                            <p style="font-size: 14px;" id="sinopsis"></p>
+        
+                            <div class="d-flex justify-content-end mt-3" id="buy-tickets"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="row mt-3" id="schedule-list">
+
+</div>
+
+
+<!-- Modal Select Seat -->
+<div class="modal modal-sm fade" id="modal-jumlah" tabindex="-1" aria-labelledby="modal-jumlah" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content rounded-0">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Select Tickets</h1>
+        </div>
+        <div class="modal-body">
+            <form method="POST" id="select-ticket-form">
+                <div class="form-label">Select Tickets:</div>
+                <select class="form-select" name="selectTickets" id="selectTickets">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+                <input name="inpId" type="hidden" id="inpId"> 
+                <button type="submit" class="btn btn-primary mt-3" id="btn-continue">Continue</button> 
+                <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal">Cancel</button>
+            </form>
+            
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+<script>
+    const id_movie = "{{id_movie}}";
+
+    $(document).ready(function() {
+        get_schedule()
+
+
+        
+        fetch('http://127.0.0.1:4000/get-movie-detail/'+id_movie,{
+            method: 'POST',})
+            .then(response => response.json())
+            .then(response => {
+                const containerPoster = document.getElementById('poster-movie');
+                const buy_tickets = document.getElementById('buy-tickets')
+                let poster = '';
+                response.movies.forEach(movie => {
+                    poster += `<img src="/static/images/poster/${movie.poster}" class="card-img-top img-fluid" alt="product-image" placeholder="/static/images/placeholder/placeholder-image.png">`
+                    buy_tickets.innerHTML = `
+                    <a href='' class="btn btn-custom mb-3 w-25 h-25" id="btn-trailer" style="color: white;">Watch Trailer</a>`
+
+                    $('#title').text(movie.title)
+                    $('#jenis-film').text(movie.genre)
+                    $('#produser').text(movie.produser) 
+                    $('#sutradara').text(movie.sutradara) 
+                    $('#penulis').text(movie.penulis) 
+                    $('#produksi').text(movie.produksi) 
+                    $('#cast').text(movie.cast) 
+                    $('#sinopsis').text(movie.sinopsis)
+                });
+                containerPoster.innerHTML = poster
+        });
+
+    });
+
+
+    function getCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
+
+    function getCurrentDate() {
+        const dateNow = new Date();
+        return `${dateNow.getDate()}-${dateNow.getMonth()+1}-${dateNow.getFullYear()}`;
+    }
+
+
+    let get_schedule = () => {
+        // Dapatkan jam sekarang
+        const currentTime = getCurrentTime();
+
+        fetch('http://127.0.0.1:4000/get-schedule-movie/' + id_movie, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(response => {
+            const containerschedule = $('#schedule-list');
+            console.log(response)
+            let displayedTheaters = {}; 
+            let displayedTanggal = {}; 
+
+            let currentDate = getCurrentDate();
+
+            response.movie_schedule.forEach(movie => {
+                let date = new Date(movie.tanggal)
+                let tanggal = `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`
+
+                if (!displayedTheaters.hasOwnProperty(movie.id_theaters)) {
+                    displayedTheaters[movie.id_theaters] = true; // Tandai bioskop sebagai sudah ditampilkan
+                    displayedTanggal[tanggal] = true; // Tandai bioskop sebagai sudah ditampilkan
+                    const scheduleDiv = $(`<div class="row mt-3 schedule-box" id="schedule-${movie.id_theaters}"></div>`);
+                    scheduleDiv.append(`
+                    <section class="light-section container col-md-8">
+                        <div class="row mt-3 schedule-box" id="schedule-${movie.id_theaters}">
+                            <div class="schedule">
+                                <p class="fs-6 fw-bold" id="theaters-name">${movie.nama_theaters}</p>
+                                <div id="date-container-${movie.id_theaters}">
+                                    <div class="schedule-date">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p style="font-size: 14px;">${tanggal}</p>
+                                            </div>
+                                            <div class="col text-end">
+                                                <p style="font-size: 14px;">Rp${movie.price} + Rp9.000</p>
+                                            </div>
+                                        </div>
+                                        <div class="time-schedule-${tanggal}">
+                                            <div class="row">
+                                                ${(movie.jam > currentTime || movie.jam < '07:00' || tanggal != currentDate) ? `<div class="col-1">
+                                                    <button class="btn btn-outline-primary schedule-btn"  onclick="select_tickets('${movie.id_schedule}')">${movie.jam}</button>
+                                                </div>` : `<div class="col-1">
+                                                    <button class="btn btn-outline-primary schedule-btn" disabled>${movie.jam}</button>
+                                                </div>`}
+                                            </div>
+                                            <hr class="mt-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    `);
+                    containerschedule.append(scheduleDiv);
+                    
+                } else {
+                    if (!displayedTanggal.hasOwnProperty(tanggal)) {
+                        let dateContainer = $(`#date-container-${movie.id_theaters}`);
+                        displayedTanggal[tanggal] = true;
+
+                        dateContainer.append(`
+                            <div class="schedule-date mt-3">
+                                <div class="row">
+                                    <div class="col">
+                                        <p style="font-size: 14px;">${tanggal}</p>
+                                    </div>
+                                    <div class="col text-end">
+                                        <p style="font-size: 14px;">Rp${movie.price} + Rp9.000</p>
+                                    </div>
+                                </div>
+                                <div class="time-schedule-${tanggal}">
+                                    <div class="row">
+                                        ${(movie.jam > currentTime || movie.jam < '07:00' || tanggal != currentDate) ? `<div class="col-1">
+                                            <button class="btn btn-outline-primary schedule-btn"  onclick="select_tickets('${movie.id_schedule}')">${movie.jam}</button>
+                                        </div>` : `<div class="col-1">
+                                            <button class="btn btn-outline-primary schedule-btn" disabled>${movie.jam}</button>
+                                        </div>`}
+                                    </div>
+                                </div>
+                                <hr class="mt-3">
+                            </div>
+                        `)
+
+
+                    } else {
+                        const scheduleDiv = $(`#schedule-${movie.id_theaters}`);
+                        scheduleDiv.find(`.time-schedule-${tanggal} .row`).append(`
+                            ${(movie.jam > currentTime || movie.jam < '07:00' || tanggal != currentDate) ? `<div class="col-1">
+                                <button class="btn btn-outline-primary schedule-btn" onclick="select_tickets('${movie.id_schedule}')">${movie.jam}</button>
+                            </div>` : `<div class="col-1">
+                                <button class="btn btn-outline-primary schedule-btn" disabled>${movie.jam}</button>
+                            </div>`}
+                        `);                    
+                    }
+                }
+            });
+        });
+    };
+
+
+    let select_tickets = (id_schedule) => {
+        console.log('A')
+        $('#modal-jumlah').modal('show'); 
+        $('#inpId').val(id_schedule); 
+    }
+
+    
+    
+    
+    
+    
+
+</script>
+{%endblock%}

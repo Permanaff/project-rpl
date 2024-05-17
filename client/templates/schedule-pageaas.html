@@ -1,0 +1,268 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<style>
+    .schedule-btn{
+        color: black;
+    }
+
+    .btn:disabled {
+        background-color: #f0f0f0; /* Warna latar belakang */
+        color: #6c757d; /* Warna teks */
+        border-color: rgb(85, 91, 95);
+    }
+    
+
+   
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+<div class="container mt-5">
+    <div class="container d-flex justify-content-center">
+        <div class="card rounded-0 w-75">
+            <div class="card-body">
+                <div class="row">
+                    <div class="container d-flex justify-content-center gap-4 mt-5 flex-wrap text-center" id="daftar-produk">
+                        <div class="movie mt-3 text-center">
+                            <a href="#" style="text-decoration: none; color: black;">
+                                <div class="advanced-movie"></div>
+                                <div class="poster-movie" id="poster-movie" style="width: 287px; height: 421px;">
+                                   
+                                </div>  
+                                <div class="movie-desc mt-4" id="movie-desc">
+                                    <h5 class="fs-6 flex-wrap">Godzilla x Kong: The New Empire</h5>
+                                    <p class="fw-light" style="color: black;">2024 | 115 Menit | SU </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3" id="schedule-list">
+                    <!-- <div class="schedule" id="schedule">
+                         <p class="fs-6 fw-bold" id="theaters-name"></p>
+
+                        <div class="row">
+                            <div class="col">
+                                <p style="font-size: 14px;">06-04-2024</p>
+                            </div>
+                            <div class="col text-end">
+                                <p style="font-size: 14px;">Rp25.000 + Rp9.000</p>
+                            </div>
+                        </div>
+
+                        <div class="time-schedule">
+                            <div class="row">
+                                <div class="col-1">
+                                    <a class="btn btn-outline-primary schedule-btn"  href="/schedule/SCH001">15:00</a>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-outline-primary schedule-btn">15:00</button>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-outline-primary schedule-btn">15:00</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container"><hr class="mt-3"></div> -->
+                </div> 
+            </div>
+        </div>
+    </div>
+   
+    
+</div>
+
+
+<div class="modal modal-sm fade" id="modal-jumlah" tabindex="-1" aria-labelledby="modal-jumlah" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content rounded-0">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Select Tickets</h1>
+        </div>
+        <div class="modal-body">
+            <form method="POST" id="select-ticket-form">
+                <div class="form-label">Select Tickets:</div>
+                <select class="form-select" name="selectTickets" id="selectTickets">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+                <input name="inpId" type="hidden" id="inpId"> 
+                <button type="submit" class="btn btn-primary mt-3" id="btn-continue">Continue</button> 
+                <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal">Cancel</button>
+            </form>
+            
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+<script>
+    const id_movie = "{{id_movie}}";
+
+    $(document).ready(function() {
+        get_schedule()
+
+
+        fetch('http://127.0.0.1:4000/get-movie-detail/'+id_movie,{
+            method: 'POST',})
+            .then(response => response.json())
+            .then(response => {
+                const containerPoster = document.getElementById('poster-movie');
+                const containerTitle = document.getElementById('movie-desc');
+                let poster = '';
+                let title = '';
+                response.movies.forEach(movie => {
+                    poster += `<img src="/static/images/poster/${movie.poster}" class="card-img-top img-fluid" alt="product-image" placeholder="/static/images/placeholder/placeholder-image.png">`
+                    title += `<h5 class="fs-6 flex-wrap">${movie.title}</h5>
+                    <p class="fw-light" style="color: black;">${movie.tahun} | ${movie.durasi} Menit | ${movie.rating} </p>`
+                });
+                containerPoster.innerHTML = poster
+                containerTitle.innerHTML = title
+        });
+
+    });
+
+    let get_schedulea = () => {
+        fetch('http://127.0.0.1:4000/get-schedule-movie/' + id_movie, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(response => {
+            const containerscheduleList = $('#schedule-list');
+            containerscheduleList.append(`<div class="schedule" id="schedule"><div>`)
+            const containerschedule = $('#schedule');
+            let content = '';
+            let displayedTheaters = {};
+            let displayedTimes = {}; 
+            response.movie_schedule.forEach(movie => {
+                if (!displayedTheaters.hasOwnProperty(movie.id_theaters)) {
+                    displayedTheaters[movie.id_theaters] = true; // Tandai bioskop sebagai sudah ditampilkan
+                    content += `<div class="schedule mt-3" id="schedule">`;
+                    content += `<p class="fs-6 fw-bold" id="theaters-name">${movie.nama_theaters}</p>`;
+                    content += `<div class="row"><div class="col"><p style="font-size: 14px;">${movie.tanggal}</p></div><div class="col text-end"><p style="font-size: 14px;">Rp${movie.price} + Rp9.000</p></div></div>`;
+                    content += `<div class="time-schedule"><div class="row">`;
+                    displayedTimes[movie.id_theaters] = new Set(); // Inisialisasi set untuk melacak jam yang telah ditampilkan untuk bioskop ini
+                }
+                if (!displayedTimes[movie.id_theaters].has(movie.jam)) {
+                    displayedTimes[movie.id_theaters].add(movie.jam); // Tambahkan jam ke set
+                    content += `<div class="col-1"><button class="btn btn-outline-primary schedule-btn">${movie.jam}</button></div>`;
+                }
+            });
+            content += `</div></div></div></div><hr class="mt-3">`;
+            
+            
+            containerschedule.append(content);
+        });
+    };
+
+
+    // Fungsi untuk mendapatkan jam sekarang (dalam format jam:menit)
+    function getCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
+
+    let get_schedule = () => {
+        // Dapatkan jam sekarang
+        const currentTime = getCurrentTime();
+        console.log(currentTime)
+
+        fetch('http://127.0.0.1:4000/get-schedule-movie/' + id_movie, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(response => {
+            const containerschedule = $('#schedule-list');
+            
+            let displayedTheaters = {}; 
+            response.movie_schedule.forEach(movie => {
+                let date = new Date(movie.tanggal)
+                let tanggal = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+
+                if (!displayedTheaters.hasOwnProperty(movie.id_theaters)) {
+                    displayedTheaters[movie.id_theaters] = true; // Tandai bioskop sebagai sudah ditampilkan
+                    const scheduleDiv = $(`<div class="row mt-3" id="schedule-${movie.id_theaters}"></div>`);
+                    scheduleDiv.append(`
+                        <div class="schedule">
+                            <p class="fs-6 fw-bold" id="theaters-name">${movie.nama_theaters}</p>
+                            <div class="row">
+                                <div class="col">
+                                    <p style="font-size: 14px;">${tanggal}</p>
+                                </div>
+                                <div class="col text-end">
+                                    <p style="font-size: 14px;">Rp${movie.price} + Rp9.000</p>
+                                </div>
+                            </div>
+                            <div class="time-schedule">
+                                <div class="row">
+                                    ${(movie.jam > currentTime || movie.jam < '07:00') ? `<div class="col-1">
+                                        <button class="btn btn-outline-primary schedule-btn"  onclick="select_tickets('${movie.id_schedule}')">${movie.jam}</button>
+                                    </div>` : `<div class="col-1">
+                                        <button class="btn btn-outline-primary schedule-btn" disabled>${movie.jam}</button>
+                                    </div>`}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container"><hr class="mt-3"></div>
+                    `);
+                    containerschedule.append(scheduleDiv);
+                    
+                } else {
+                    const scheduleDiv = $(`#schedule-${movie.id_theaters}`);
+                    scheduleDiv.find('.time-schedule .row').append(`
+                        ${(movie.jam > currentTime || movie.jam < '07:00') ? `<div class="col-1">
+                            <button class="btn btn-outline-primary schedule-btn" onclick="select_tickets('${movie.id_schedule}')">${movie.jam}</button>
+                        </div>` : `<div class="col-1">
+                            <button class="btn btn-outline-primary schedule-btn" disabled>${movie.jam}</button>
+                        </div>`}
+                    `);                    
+                }
+            });
+        });
+    };
+
+
+
+    // let select_tickets = (id_schedule) => {
+    //     console.log('A')
+    //     $('#modal-jumlah').modal('show'); 
+    //     const containerId = $('#schedule-id');
+    //     containerId.innerHTML=`<input name="inpId" type="hidden" value="${id_schedule}">`
+    // }
+    // let submitForm = () => {
+    //     $('#select-ticket-form').submit()
+    // }
+
+    let select_tickets = (id_schedule) => {
+        console.log('A')
+        $('#modal-jumlah').modal('show'); 
+        $('#inpId').val(id_schedule); 
+    }
+
+
+
+
+
+</script>
+
+{%endblock%}

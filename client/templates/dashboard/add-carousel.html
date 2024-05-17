@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <!-- Meta -->
+
+    <!-- Google Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <title>NSC - Dashboard</title>
+
+    <!-- Vendor CSS -->
+    <link href="/static/lib/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/static/css/style.min.css">
+    <link rel="stylesheet" href="/static/css/style-table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/css/perfect-scrollbar.min.css">
+
+    <!-- Uploader Plugin Jquery -->
+    <link rel="stylesheet" href="/static/jquery/jquery.uploader_carousel.css">
+
+    <style>
+        .custom-icon {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .table thead th {
+            color: black;
+        }
+
+        td button{
+          color: red;
+        }
+        
+        th, td {
+          text-align: center;
+        }
+
+        select {
+            margin: 0px;
+            height: 40px;
+        }
+
+        .custom-a {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* .custom-a span {
+            position: absolute;
+            top: 5px;
+        } */
+/* 
+        .custom-input {
+            height: 100px;
+            width: 100px;
+        } */
+
+        .input-image {
+            border: 2px dashed #ccc;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #img-preview {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .content-body {
+            min-height: 500px;
+        }
+
+        .btn.deleteContainer:focus {
+            outline: none;
+        }
+        .btn.deleteContainer {
+            float: right;
+            border: none;
+        }
+
+
+        
+
+
+
+    </style>
+  </head>
+  <body class="skin-base animate">
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+          <a href="/home" class="sidebar-logo-text d-flex justify-content-center">
+            <img src="/static/images/logo/logo.png" alt="" width="80%">
+          </a>
+        </div><!-- sidebar-header -->
+        <div class="sidebar-search">
+          <div class="search-body">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="form-control" placeholder="Search...">
+          </div><!-- search-body -->
+        </div><!-- sidebar-search -->
+        <div class="sidebar-body">
+          <ul class="nav-sidebar">
+            <li class="nav-item"><a href="/dashboard" class="nav-link"><span class="material-symbols-outlined custom-icon">dashboard</span><span>Dashboard</span></a></li>
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-film custom-icon"></i><span>Movies</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/movies-list" class="sub-link">Movie List</a>
+                <a href="/dashboard/add-movies" class="sub-link movie-add visually-hidden">Add Movie</a>
+              </nav>
+            </li>
+
+            <li class="nav-item"><a href="/theater" class="nav-link"><i class="fa-solid fa-building custom-icon"></i><span>Theaters</span></a></li>
+
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-calendar custom-icon"></i><span>Schedule Theaters</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/schedule-list" class="sub-link">Schedule List</a>
+                <a href="/dashboard/add-schedule" class="sub-link">Add Schedule</a>
+              </nav>
+            </li>
+            <li class="nav-item active show">
+                <a href="/dashboard/add-carousel" id="add-carousel" class="nav-link with-sub visually-hidden"><i class="fa-regular fa-image custom-icon"></i><span>Carousel Content</span></a>
+                <nav class="nav-sub">
+                      <a href="/dashboard/carousel" class="sub-link ">Carousel List</a>
+                      <a href="/dashboard/add-carousel" class="sub-link active">Add Carousel</a>
+                </nav>
+              </li>
+            
+          </ul>
+  
+          <hr>
+  
+          <ul class="nav-sidebar">
+              <li class="nav-item"><a href="/dashboard/daftar-transaksi" class="nav-link"><i class="fa-solid fa-ticket custom-icon"></i><span>Daftar Transaksi</span></a></li>
+
+              <div class="visually-hidden" id="manage-account">
+                <li class="nav-item"><a href="/dashboard/laporan-penjualan" class="nav-link"><i class="fa-solid fa-chart-simple custom-icon"></i><span>Laporan Penjualan</span></a></li>
+                <li class="nav-item">
+                    <a href="" class="nav-link with-sub"><i data-feather="users"></i><span>Manage Accounts</span></a>
+                    <nav class="nav-sub">
+                      <a href="/dashboard/add-administrator" class="sub-link">Add Administrator</a>
+                      <a href="/dashboard/administrator-list" class="sub-link">Administrator List</a>
+                    </nav>
+                  </li>
+              </div>
+          </ul>
+  
+
+        </div><!-- sidebar-body -->
+        <div class="sidebar-footer">
+          <a href="" class="avatar online"><img src="/static/images/avatar/avatar.jpg" alt="" class="avatar-initial"></span></a>
+          <div class="avatar-body">
+            <div class="row">
+              <div class="col-9">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 id="nama-user"></h6>
+                      <!-- <a href="" class="footer-menu dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-settings-4-line"></i></a> -->
+                </div>
+                <span id="tile-user"></span>
+              </div>
+              <div class="col-1 d-flex justify-content-center align-items-center">
+                  <a href="/logout" class="footer-menu"><i class="fa-solid fa-right-from-bracket custom-icon"></i></a>
+              </div>
+            </div>
+          </div><!-- avatar-body -->
+        </div><!-- sidebar-footer -->
+      </div><!-- sidebar -->
+  
+      <div class="content">
+       <div class="content-header sticky-top" style="background-color: white;">
+          <div class="row">
+            <div class="col">
+              <a id="contentMenu" href="#" class="content-menu d-none d-lg-flex"><i class="fa-solid fa-bars" style="font-size: 20px;"></i></a>
+              <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i class="fa-solid fa-bars" style="font-size: 20px;"></i></i></a>
+            </div>
+            <div class="col">
+              <p class="fs-5 text-center">Add Carousel</p>
+            </div>
+            <div class="col"></div>
+          </div>
+        </div><!-- content-header -->
+        <div class="content-body">
+            <div class="container">
+                <div id="alert-container"></div>
+                <div class="container">
+                    <button class="btn btn-primary" id="add-input">Tambah Carousel</button>
+                </div>
+                
+                <div id="input-container" class="mt-5"></div>
+
+                
+                <div class="d-flex justify-content-end mt-5">
+                    <button class="btn btn-primary w-25" id="btnSimpan">Simpan</button>
+                </div> 
+            </div>
+
+            
+            
+            
+        </div><!-- content-body -->
+        <footer id="footer-bottom" class="border-top mt-5">
+            <p class="text-center mt-2" style="color: #BEBEBE;">&copy; 2024 New Star Cinplex | PT. Karya Media Jaya Bersama.</p>
+        </footer>
+      </div><!-- content -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="/static/jquery/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+    <script src="https://kit.fontawesome.com/fa29c2884b.js" crossorigin="anonymous"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/jquery/jquery.uploader.min.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+
+      <script>
+
+
+        $(document).ready(function () {
+            addInput()
+
+        });
+
+        // Event listener untuk input file yang ditambahkan secara dinamis
+        $(document).on('change', '.image-input', function() {
+            var fileInput = $(this)[0].files[0];
+            var previewContainer = $(this).siblings('.input-group').find('#img-preview');
+
+            if (fileInput) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    previewContainer.html('<img src="'+ e.target.result +'" alt="image-preview" style="width: 90%;" class="mt-2"> ');
+                };
+                reader.readAsDataURL(fileInput);
+            }
+        });
+
+        // Fungsi menampilkan preview gambar
+        let add_preview = (elementID) => {
+            $(`#img-preview-${elementID}`).empty()
+            input_control(elementID)
+            var fileInput = $(`#inputImage${elementID}`)[0].files[0];
+                if (fileInput) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $(`#img-preview-${elementID}`).append('<img src="'+ e.target.result +'"alt="image-preview" style="width: 90%;" class="mt-2"> ');
+                    };
+                    
+                    reader.readAsDataURL(fileInput);
+                }
+                
+        }
+
+        let show_delete = (elementID) => {
+            var fileName = $(`#inputImage${elementID}`).val().split('\\').pop();
+            if (fileName) {
+                $(`#deleteInput${elementID}`).removeClass('visually-hidden');
+            } else {
+                $(`#deleteInput${elementID}`).addClass('visually-hidden');
+            }
+        }
+
+
+        let input_control = (elementID) => {
+            document.getElementById(`deleteInput${elementID}`).addEventListener('click', function() {
+                document.getElementById(`inputImage${elementID}`).value = '';
+                document.getElementById(`img-preview-${elementID}`).innerHTML = '';
+                document.getElementById(`deleteInput${elementID}`).classList.add('visually-hidden');
+            })
+        }
+
+        let delete_input = (elementID) => {
+            $(`#input-image-${elementID}`).remove();
+        }
+
+
+       
+
+        // Fungsi untuk menambahkan input gambar baru
+        let addInput = () => {
+            let jumlahInput = $('.image-input').length;
+            const container = $('#input-container');
+            jumlahInput++
+            container.append(`
+                <div class="input-image mt-5" id="input-image-${jumlahInput}">
+                    <div class="d-flex justify-content-between align-items-center mx-3">
+                        <label class="form-label me-auto">Carousel Baru</label>
+                        <label class="btn btn-outline-secondary deleteContainer" type="button" id="deleteContainer${jumlahInput}" onclick="delete_input(${jumlahInput})"><i class="fa-solid fa-xmark"></i></label>
+                    </div>
+                    <div class="mt-1 d-flex justify-content-center" id="img-preview-${jumlahInput}"></div>
+                    <div class="input-group mb-3 mt-3">
+                        <input type="text" class="form-control title-input" id="judul-${jumlahInput}" placeholder="Judul Carousel">
+                        <label class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03" for="inputImage${jumlahInput}">Upload</label>
+                        <input type="file" class="form-control image-input visually-hidden" id="inputImage${jumlahInput}" aria-describedby="inputGroupFileAddon03" aria-label="Upload" onchange="add_preview(${jumlahInput}), input_control(${jumlahInput}), show_delete(${jumlahInput})">
+                        <label class="btn btn-outline-secondary deleteInput visually-hidden" type="button" id="deleteInput${jumlahInput}"><i class="fas fa-trash"></i></label>
+                    </div>
+                </div>
+                `);
+
+        };
+
+        $('#add-input').on('click', function() {
+            addInput();
+        });
+
+        $('#btnSimpan').on('click', function() {
+            uploadImages();
+        })
+
+        function uploadImages() {
+            var carouselData = new FormData();
+
+            document.querySelectorAll('.image-input').forEach(function(input) {
+                var file = input.files[0];
+                var title = input.parentElement.querySelector('.title-input').value;
+
+                carouselData.append('images[]', file);
+                carouselData.append('titles[]', title);
+            });
+
+
+            fetch('http://127.0.0.1:4000/add-carousel', {
+                method: 'POST',
+                body: carouselData
+            })
+            .then(response => response.json())
+            .then(data => {
+                $(`#input-container`).empty()
+                $(window).scrollTop(0);
+                $('#alert-container').append('<div class="alert alert-success" role="alert">Berhasil Menambahkan Carousel!</div>');
+                addInput()
+                
+            })
+            .catch(error => {
+                $('#alert-container').append('<div class="alert alert-danger" role="alert">Gagal Menambahkan Carousel!</div>');
+                console.error('Terjadi kesalahan:', error);
+            });
+        }
+
+
+
+
+
+
+
+    
+
+
+        
+
+
+
+      </script>
+
+  </body>
+</html>

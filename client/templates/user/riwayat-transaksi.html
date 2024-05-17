@@ -1,0 +1,170 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+
+<!-- CSS DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.css">
+
+<style>
+
+    .btn-nav:focus,
+    .btn-nav:active {
+        border: 0px;
+        
+    }
+    .btn-nav {
+        color: #0d6efd;
+        border: 0px;
+    }
+    .btn-nav:hover {
+        color: #2064cc;
+    }
+
+    p, h5 {
+        /* color: white; */
+        color: black;
+    }
+
+    .tx-custom {
+        color: #0d6efd;
+    }
+
+
+    i {
+        font-size: 40px;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .icon-button {
+      padding: 5px 5px;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      color: #0d6efd;
+    }
+
+    .icon-button:hover {
+      color: #2064cc;
+    }
+
+
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+<section class="mt-5 p-3" style="background-color: #f7f9fd;">
+    <div class="mx-5 p-3" style="background-color: white;">
+        <h3 class="fw-5 fw-bold tx-custom my-3">Riwayat Pembelian</h3>
+        <hr>
+        <table id="table" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 130px;">Date</th>
+                    <th>Cinema</th>
+                    <th>Movie</th>
+                    <th>Showtimes</th>
+                    <th>Booking Kode</th>
+                    <th>Total Amount</th>
+                    <th>Subtotal</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="body-table">
+               
+            </tbody>
+            <!-- <tfoot>
+                <tr>
+                  <th>ID Schedule</th>
+                  <th>Theaters</th>
+                  <th>Judul Film</th>
+                  <th>Tanggal Tayang</th>
+                  <th>Tanggal Selesai</th>
+                  <th>Jam</th>
+                  <th>Studio</th>
+              </tr>
+            </tfoot> -->
+        </table>
+    </div>
+
+</section>
+
+{%endblock%}
+
+{%block scripts%}
+
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+
+<script>
+    $(document).ready(function() {
+
+        
+    });
+
+
+    
+    
+    const riwayat = fetch(`http://127.0.0.1:5000/login-status`, {method: 'post'})
+    // const riwayat = fetch(`https://a4a2-202-51-208-50.ngrok-free.app/login-status`, {method: 'post'})
+        .then(response => response.json())
+        .then(response => {
+            let id_user = response.user_id;
+            fetch(`http://127.0.0.1:4000/get-riwayat-transaksi/${id_user}`, {method: 'post'}) 
+            .then(response => response.json())
+            .then(response => {
+                const container = $('#body-table')
+                let content ='';
+
+                response.riwayat.forEach((data, index) => {
+                    let date = new Date(data.tanggal_booking)
+                    let month = date.toLocaleString('default', { month: 'short' }); 
+                    let tanggal = `${date.getDate()}-${month}-${date.getFullYear()}`
+
+                    content += `
+                    <tr>
+                        <td>${index+1}</td>
+                        <td>${tanggal}</td>
+                        <td>${data.theaters}</td>
+                        <td>${data.title}</td>
+                        <td class="text-center">${data.jam}</td>
+                        <td class="text-center">${data.id_booking}</td>
+                        <td class="text-center">${data.jml_seat}</td>
+                        <td class="text-center">${data.total}</td>
+                        <td class="text-center">${data.status}</td>
+                        <td class="text-center">
+                            <button class="icon-button"><span class="material-symbols-outlined" onclick="detail_transaksi('${data.id_booking}','${data.status}')">info</span></i></button>
+                        </td>
+                    </tr>
+                  `
+                });
+                container.append(content)
+                new DataTable('#table', {
+                    order: [],
+                });
+            })
+            
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
+        function detail_transaksi(order_id, status) {
+            let status_code;
+            
+
+            window.location.href = `/tickets?order_id=${order_id}`;
+        }
+
+    // fetch(`http://127.0.0.1:4000/get-riwayat-transaksi/`, {method: 'post'})
+        
+    
+</script>
+{%endblock%}

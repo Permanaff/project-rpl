@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <!-- Meta -->
+
+    <!-- Google Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <title>NSC - Dashboard</title>
+
+    <!-- Vendor CSS -->
+    <link href="/static/lib/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/static/css/style.min.css">
+    <link rel="stylesheet" href="/static/css/style-table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/css/perfect-scrollbar.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.css">
+    
+
+    <style>
+        .custom-icon {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .table thead th {
+            color: black;
+        }
+
+        td button{
+          color: red;
+        }
+        
+        th, td {
+          text-align: center;
+        }
+
+        select {
+            margin: 0px;
+            height: 40px;
+        }
+
+        .custom-a {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* .custom-a span {
+            position: absolute;
+            top: 5px;
+        } */
+
+        tbody tr td {
+          text-align: start;
+        }
+
+
+
+    </style>
+  </head>
+  <body class="skin-base animate">
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+          <a href="/home" class="sidebar-logo-text d-flex justify-content-center">
+            <img src="/static/images/logo/logo.png" alt="" width="80%">
+          </a>
+        </div><!-- sidebar-header -->
+        <div class="sidebar-search">
+          <div class="search-body">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="form-control" placeholder="Search...">
+          </div><!-- search-body -->
+        </div><!-- sidebar-search -->
+        <div class="sidebar-body">
+          <ul class="nav-sidebar">
+            <li class="nav-item"><a href="/dashboard" class="nav-link"><span class="material-symbols-outlined custom-icon">dashboard</span><span>Dashboard</span></a></li>
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-film custom-icon"></i><span>Movies</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/movies-list" class="sub-link">Movie List</a>
+                <a href="/dashboard/add-movies" class="sub-link movie-add visually-hidden">Add Movie</a>
+              </nav>
+            </li>
+
+            <li class="nav-item"><a href="/dashboard/theater" class="nav-link"><i class="fa-solid fa-building custom-icon"></i><span>Theaters</span></a></li>
+
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-calendar custom-icon"></i><span>Schedule Theaters</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/schedule-list" class="sub-link active">Schedule List</a>
+                <a href="/dashboard/add-schedule" class="sub-link">Add Schedule</a>
+              </nav>
+            </li>
+            <li class="nav-item">
+              <a href="/dashboard/add-carousel" id="add-carousel" class="nav-link with-sub visually-hidden"><i class="fa-regular fa-image custom-icon"></i><span>Carousel Content</span></a>
+              <nav class="nav-sub">
+                    <a href="/dashboard/carousel" class="sub-link">Carousel List</a>
+                    <a href="/dashboard/add-carousel" class="sub-link">Add Carousel</a>
+              </nav>
+            </li>
+          </ul>
+  
+          <hr>
+  
+          <ul class="nav-sidebar">
+            <li class="nav-item"><a href="/dashboard/daftar-transaksi" class="nav-link"><i class="fa-solid fa-ticket custom-icon"></i><span>Daftar Transaksi</span></a></li>
+
+            <div class="visually-hidden" id="manage-account">
+              <li class="nav-item"><a href="/dashboard/laporan-penjualan" class="nav-link"><i class="fa-solid fa-chart-simple custom-icon"></i><span>Laporan Penjualan</span></a></li>
+              <li class="nav-item active show">
+                  <a href="" class="nav-link with-sub"><i data-feather="users"></i><span>Manage Accounts</span></a>
+                  <nav class="nav-sub">
+                    <a href="/dashboard/add-administrator" class="sub-link active">Add Administrator</a>
+                    <a href="/dashboard/administrator-list" class="sub-link">Administrator List</a>
+                  </nav>
+                </li>
+            </div>
+        </ul>
+  
+  
+        </div><!-- sidebar-body -->
+        <div class="sidebar-footer">
+          <a href="" class="avatar online"><img src="/static/images/avatar/avatar.jpg" alt="" class="avatar-initial"></span></a>
+          <div class="avatar-body">
+            <div class="row">
+              <div class="col-9">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 id="nama-user"></h6>
+                      <!-- <a href="" class="footer-menu dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-settings-4-line"></i></a> -->
+                </div>
+                <span id="tile-user"></span>
+              </div>
+              <div class="col-1 d-flex justify-content-center align-items-center">
+                  <a href="/logout" class="footer-menu"><i class="fa-solid fa-right-from-bracket custom-icon"></i></a>
+              </div>
+            </div>
+          </div><!-- avatar-body -->
+        </div><!-- sidebar-footer -->
+      </div><!-- sidebar -->
+  
+      <div class="content">
+        <div class="content-header">
+          <a id="contentMenu" href="#" class="content-menu d-none d-lg-flex"><i class="fa-solid fa-bars" style="font-size: 20px;"></i></a>
+          <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i data-feather="menu"></i></a>
+          <p class="fs-5 text-center">Daftar Administrator</p>
+        </div><!-- content-header -->
+        <div class="content-body">
+          <div class="container col-md-8">
+            <div id="alert-container"></div>
+
+            <div class="form-group row g-3">
+                <div class="col ps-0">
+                    <label for="firstName" class="form-label ps-0">Nama Lengkap</label>
+                    <input type="text" id="nama" class="form-control" placeholder="Masukkan nama depan" required> 
+                </div>
+                <div class="col pe-0">
+                    <label for="email" class="form-label">Username:</label>
+                    <input id="username" type="text" class="form-control"  placeholder="Masukkan username" required>
+                </div>
+            </div>
+            
+            <div class="form-group row g-3">
+                <div class="col ps-0">
+                    <label class="form-label">Email Address</label>
+                    <input id="email" type="email" class="form-control" placeholder="Masukkan Email" required>
+                </div>
+                <div class="col pe-0">
+                    <label class="form-label">Nomor Telepon </label>
+                    <input id="no_telp" type="text" class="form-control" placeholder="Masukkan nomor telepon (08123456789)" required>
+                </div>
+            </div>
+            
+            <div class="form-group row mb-4 mt-4">
+                <label class="form-label">Alamat</label>
+                <textarea class="form-control" id="alamat" id="inpAlamat" placeholder="Masukkan Alamat" rows="5"></textarea>
+            </div>
+
+            <div class="form-group row mb-4 mt-4">
+                <label class="form-label ps-0">Password</label>
+                <input id="password" type="password" class="form-control" placeholder="Masukkan Password" required>
+            </div>
+            <div class="form-group row mb-4 mt-4">
+                <label class="form-label ps-0">Theater</label>
+                <select class="form-select" aria-label="theater-list" id="theater-select">
+                    <option value="0">Pilih Theater</option>
+                </select>
+            </div>
+
+            <div class="form-group row g-3">
+                <div class="col ps-0">
+                    <label class="form-label">Gender</label>
+                    <select class="form-select" aria-label="gender" id="gender">
+                        <option value="Pria">Pria</option>
+                        <option value="Wanita">Wanita</option>
+                    </select>
+                </div>
+                <div class="col pe-0">
+                    <label class="form-label">Level Administrator</label>
+                    <select class="form-select" aria-label="level" id="level">
+                        <option value="1">Super Admin</option>
+                        <option value="2">Admin</option>
+                    </select>
+                </div>
+            </div>
+            
+          
+            
+            <div class="form-group row mb-4 mt-4">
+                <div class="col ps-0">
+                    <label class="form-label">Tanggal Lahir</label>
+                    <div class="col-5 d-flex ps-0">
+                        <select class="form-select rounded-0" id="day" name="day" style="width: 150px;"></select>
+                        <select class="form-select rounded-0 ms-2" id="month"  name="month" style="width: 500px;"></select>
+                        <select class="form-select rounded-0 ms-2" id="year" name="year" style="width: 150px;"></select>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div id="cont-btn">
+                <button class="btn btn-primary w-100" onclick="register_akun()">Simpan</button>
+            </div>
+
+
+          </div>
+            
+        
+            <footer id="footer-bottom" class="border-top" style="margin-top: 150px;">
+                
+                <p class="text-center mt-2" style="color: #BEBEBE;">&copy; 2024 New Star Cinplex | PT. Karya Media Jaya Bersama.</p>
+            </footer>
+        
+
+        
+    
+    
+           
+         
+        </div><!-- content-body -->
+      </div><!-- content -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="/static/jquery/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+    <script src="https://kit.fontawesome.com/fa29c2884b.js" crossorigin="anonymous"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    
+
+      <script>
+        let dateNow = new Date();
+        $(document).ready(function () {
+            add_option_date()
+            add_option_theater()
+        
+        });
+
+        let add_option_date = () => {
+            var daySelect = $('#day');
+            var monthSelect = $('#month');
+            var yearSelect = $('#year');
+
+            for (var i = 1; i <= 31; i++) {
+                daySelect.append($('<option>', {
+                    value: i,
+                    text: i
+                }));
+            }
+            var months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+
+            for (var i = 0; i < months.length; i++) {
+                monthSelect.append($('<option>', {
+                    value: i + 1,
+                    text: months[i]
+                }));
+            }
+
+            var currentYear = new Date().getFullYear();
+            for (var i = currentYear; i >= currentYear-100; i--) {
+                yearSelect.append($('<option>', {
+                    value: i,
+                    text: i
+                }));
+            }
+
+            $('#day').val(dateNow.getDate())
+            $('#month').val(dateNow.getMonth()+1)
+            $('#year').val(dateNow.getFullYear())
+        }
+
+        function register_akun () { 
+            data = {
+                'nama' : $('#nama').val(),
+                'username' : $('#username').val(),
+                'email' : $('#email').val(),
+                'no_telp' : $('#no_telp').val(),
+                'alamat' : $('#alamat').val(),
+                'password' : $('#password').val(),
+                'theater' : $('#theater-select').val(),
+                'gender' : $('#gender').val(),
+                'level_user' : $('#level').val(),
+                'tanggal_lahir' : $('#year').val()+'-'+$('#month').val()+'-'+$('#day').val()
+            }
+
+            console.log($('#theater-select').val())
+
+
+            fetch('http://127.0.0.1:4000/register-admin', {
+                method:'post',
+                headers: {
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(data)
+                })
+            .then(response => response.json())
+            .then(response => {
+                $('#alert-container').empty()
+                $(window).scrollTop(0);
+                $('#nama').val('')
+                $('#username').val('')
+                $('#email').val('')
+                $('#no_telp').val('')
+                $('#alamat').val('')
+                $('#password').val('')
+                $('#theater').val(0)
+                $('#gender').val('Pria')
+                $('#level_user').val('')
+                $('#day').val(dateNow.getDate())
+                $('#month').val(dateNow.getMonth())
+                $('#year').val(dateNow.getFullYear())
+
+                $('#alert-container').append('<div class="alert alert-success" role="alert">Berhasil Membuat Akun Admin!</div>');
+                
+            })
+            .catch(error => {
+                console.log(error)
+                $('#alert-container').append('<div class="alert alert-danger" role="alert">GagalMembuat Akun Admin!</div>');
+            })
+            
+        }
+
+        let add_option_theater = () => {
+            fetch('http://127.0.0.1:4000/get-all-theaters', {method:'POST'})
+                .then(response => response.json())
+                .then(response => {
+                const selectTheater = $('#theater-select')
+                let content=''; 
+                console.log(response)
+                response.theaters.forEach(theater => {
+                    content += `
+                        <option value="${theater.id_theaters}">${theater.nama_theaters}</option>
+                    `
+                });
+                selectTheater.append(content)
+                })
+
+                .catch(error => {
+                console.error('Gagal mengambil data:', error);
+                })
+        }
+
+        
+        
+        </script>
+        
+        </body>
+        </html>

@@ -1,0 +1,158 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<style>
+    p {
+        /* color: white; */
+        color: black;
+    }
+
+    li, ul {
+        /* color: white; */
+        color: black;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    .alignMe p {
+        display: inline-block;
+        width: 40%;
+        position: relative;
+        padding-right: 5px; 
+        margin-bottom: 5px;
+    }
+
+    .alignMe p::after {
+        content: ":";
+        position: absolute;
+        right: 10px;
+    }
+
+    #main-section {
+        min-height: 500px;
+    }
+
+    .custom-select {
+        background-color: #0d6efd; 
+        color: #fff; 
+        border-color: #0d6efd;
+    }
+
+    
+
+
+</style>
+{%endblock%}
+
+{%block body%}
+    <section id="main-section"  style="background-color: #f7f9fd;">
+        <div class="container mt-5 pb-3">
+            <div class="row">
+                <div class="col-3">
+                    <select class="form-select custom-select mt-5" name="selectRegion" id="selectRegion">
+                        <option value="36">Banten</option>
+                        <option value="32">Jawa Barat</option>
+                        <option value="33" selected>Jawa Tengah</option>
+                        <option value="35">Jawa Timur</option>
+                        <option value="60">Kalimantan</option>
+                        <option value="19">Bangka Belitung</option>
+                    </select>
+                </div>
+            </div>
+            <hr class="mt-5" style="color: rgb(32, 32, 32);">
+            <div class="mt-1" id="theaters-list">
+                <!-- <div id="list">
+                    <div class="row">
+                        <div class="col-9">
+                            <p class="fs-5 fw-bold">NSC Demak</p>
+                            <p class="">Jl. Raya Demak - Kudus Bintoro Kompleks Ex. Gedung Garuda Jawa Tengah 59511</p>
+                            <p>Telp: 0291-6913922</p>
+                        </div>
+                        <div class="col">
+                            <ul class="alignMe"><span class="fw-bold">Harga Tiket 2D :</span>
+                                <li><p style="font-size: 14px;">Senin-Rabu</p><span id="seninSelasa">Rp25.000 + Rp9.000</span></li>
+                                <li><p style="font-size: 14px;">Kamis-Jumat</p><span id="kamisJumat"></span>Rp30.000 + Rp9.000</li>
+                                <li><p style="font-size: 14px;">Sabtu-Minggu</p><span id="sabtuMinggu"></span>Rp35.000 + Rp9.000</li>
+                            </ul>
+                        </div>
+                        <p class="text-end" style="font-size: 12px;">* Rp.9000 voucher minum (Fruit Tea / Club / Teh Sosro)</p>
+                        <hr class="mt-1" style="color: white;">
+                    </div>
+                </div> -->
+            </div>
+            
+        </div>
+    </section>
+
+{%endblock%}
+
+{%block scripts%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+    const formatRupiah = (amount) => {
+        amount = Math.floor(amount);
+        return "Rp" + amount.toLocaleString('id-ID');
+    };
+
+    $(document).ready(function() {
+        get_theaters($('#selectRegion').val())
+
+        $('#selectRegion').change(function() {
+            let region = $('#selectRegion').val()
+            $('#theaters-list').empty()
+            get_theaters(region)
+
+            
+        });
+
+    });
+
+    let get_theaters = (region) => {
+        fetch(`http://127.0.0.1:4000/theaters-list/${region}`, {method : 'post'})
+            .then(response => response.json())
+            .then(response => {
+                let list = $('#theaters-list')
+                let content='';
+                response.bioskop.forEach(data => {
+                    content += `
+                    <div id="list-${data.theaters_id}">
+                        <div class="row">
+                            <div class="col-9">
+                                <p class="fs-5 fw-bold">${data.nama_theaters}</p>
+                                <p class="">${data.alamat}</p>
+                                <p>Telp: ${data.no_telp}</p>
+                                <a class="btn btn-outline-custom" onclick="buy_ticket('${data.theaters_id}')">Buy Ticket</a>
+                            </div>
+                            <div class="col">
+                                <ul class="alignMe"><span class="fw-bold">Harga Tiket 2D :</span>
+                                    <li><p style="font-size: 14px;">Senin-Rabu</p><span id="seninSelasa">${formatRupiah(data.price1)} + Rp9.000</span></li>
+                                    <li><p style="font-size: 14px;">Kamis-Jumat</p><span id="kamisJumat"></span>${formatRupiah(data.price2)} + Rp9.000</li>
+                                    <li><p style="font-size: 14px;">Sabtu-Minggu</p><span id="sabtuMinggu"></span>${formatRupiah(data.price3)} + Rp9.000</li>
+                                </ul>
+                                <p class="" style="font-size: 11px;">H -1 Hari Libur, Weekend, Hari libur ${formatRupiah(data.price3)} + Rp9.000 * Rp9.000 voucher minum (Fruit Tea / Club / Teh Sosro)</p>
+                            </div>
+                            <hr class="mt-1" style="color: rgb(32, 32, 32);">
+                        </div>
+                    </div>
+                    `;
+                });
+                list.append(content)
+            });
+    }
+
+    function buy_ticket(id_theater) {
+        window.location.href = `/theater?movie=${id_theater}`;
+    }
+
+        
+    
+</script>
+{%endblock%}

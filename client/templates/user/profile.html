@@ -1,0 +1,464 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+
+<!-- CSS DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.css">
+
+<style>
+
+
+    
+    .btn-nav:focus,
+    .btn-nav:active {
+        border: 0px;
+        
+    }
+    .btn-nav {
+        color: #0d6efd;
+        border: 0px;
+    }
+    .btn-nav:hover {
+        color: #2064cc;
+    }
+
+    p, h5 {
+        /* color: white; */
+        color: black;
+    }
+
+    .tx-custom {
+        color: #0d6efd;
+    }
+
+
+    i {
+        font-size: 40px;
+    }
+
+    .profile-pic {
+        width: 230px;
+        max-height: 230px;
+        display: inline-block;
+    }
+
+    .circle {
+        border-radius: 100% !important;
+        overflow: hidden;
+        width: 220px;
+        height: 220px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        top: 72px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+
+
+    .file-upload {
+        display: none;
+    }
+
+    .p-image {
+        position: absolute;
+        top: 370px;
+        left: 1015px;
+        color: #666666;
+        transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+    }
+
+    .p-image:hover {
+        transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+    }
+    .upload-button {
+        font-size: 1.7em;
+    }
+
+    .upload-button:hover {
+        transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+        color: #999;
+    }
+
+    .card-header {
+        background-color: white;
+    }
+
+    i {
+        font-size: 15px;
+    }
+
+    .toast-position {
+        position: -webkit-sticky; 
+        position: sticky; 
+        top: 80px; 
+        z-index: 1000; 
+    }
+
+    .tx-custom {
+        color: #0d6efd;
+    }
+
+    .form-control.invalid {
+        border-color: red !important; /* Warna border merah */
+        box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25) !important; /* Shadow merah */
+    }
+
+
+
+
+
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+<div aria-live="polite" aria-atomic="true" class="toast-position">
+    <div class="toast-container top-0 end-0 p-3">
+        <div id="toast-success" class="toast align-items-center text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body">
+                Berhasil Mengubah Data Profil!
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        <div id="toast-failed" class="toast align-items-center text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body">
+                Gagal Mengubah Data Profil!
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<section class="mt-5 p-4" style="background-color: #f7f9fd;">
+    <div class="container d-flex justify-content-center">
+    
+        <div class="card border-0 rounded-0" >
+            
+    
+            <!-- <div class="card-header border-bottom-0">
+                <p class="fs-3 fw-bold tx-custom my-2">Profile</p>
+                <hr my-0>
+            </div> -->
+           
+            <!-- <div class="card-header border-bottom-0">
+                <div class="row my-3">
+                    <div class="col d-flex justify-content-center">
+                        <div class="circle">
+                            <img class="profile-pic" src="/static/images/profile_image/avatar.jpg">
+                        </div>
+                    </div>
+                    <div class="p-image">
+                        <i class="fa fa-camera upload-button"></i>
+                        <input class="file-upload" type="file" id="inputImage" accept="image/*"/>
+                    </div>
+                 </div>
+            </div> -->
+    
+            <!-- <div class="card-body">
+    
+                <label for="noTelp" class="form-label">Handphone:</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-mobile"></i></span>
+                    <input id="no_telp" type="text" class="form-control" placeholder="No telepon" aria-label="noTelp" aria-describedby="addon-wrapping" disabled>
+                </div>
+    
+                <label for="fullName" class="form-label mt-3">Nama Lengkap:</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-user"></i></span>
+                    <input id="nama" type="text" class="form-control" placeholder="Nama Lengkap" aria-label="fullName" aria-describedby="addon-wrapping">
+                </div>
+                
+                <label for="email" class="form-label mt-3">Email:</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa-regular fa-envelope"></i></span>
+                    <input id="email" type="text" class="form-control" placeholder="Email" aria-label="email" aria-describedby="addon-wrapping" disabled>
+                </div>
+                
+                <label for="alamat" class="form-label mt-3">Alamat:</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-address-book"></i></span>
+                    <textarea id="alamat" type="text" class="form-control" placeholder="Alamat" aria-label="alamat" aria-describedby="addon-wrapping"></textarea>
+                </div>
+                
+                <label for="gender" class="form-label mt-3">Gender:</label>
+                <div class="input-group flex-nowrap">
+                    <select class="form-select" id="gender" aria-label="gender" name="gender">
+                        <option value="Pria">Pria</option>
+                        <option value="Wanita">Wanita</option>
+                    </select>
+                </div>
+                
+                <label class="form-label mt-3">Tanggal Lahir:</label>
+                <div class="input-group flex-nowrap">
+                    <div class="col-5 d-flex">
+                        <select class="form-select rounded-0" id="day" name="day" style="width: 150px;"></select>
+                        <select class="form-select rounded-0 ms-2" id="month"  name="month" style="width: 500px;"></select>
+                        <select class="form-select rounded-0 ms-2" id="year" name="year" style="width: 150px;"></select>
+                    </div>
+                </div>
+    
+                <div class="mt-4">
+                    <button class="btn btn-success" id="btn-update" disabled>Update</button>
+    
+                </div>
+ 
+            </div> -->
+
+
+            <div class="card-body">
+                <div class="row m-0 p-0">
+                    <p class="fs-3 fw-bold tx-custom my-3">Profile</p>
+                    <div class="col-md-6">
+                        <label for="noTelp" class="form-label">Handphone:</label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-mobile"></i></span>
+                            <input id="no_telp" type="text" class="form-control" placeholder="No telepon" aria-label="noTelp" aria-describedby="addon-wrapping" disabled>
+                        </div>
+            
+                        <label for="fullName" class="form-label mt-3 ">Nama Lengkap:</label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-user"></i></span>
+                            <input id="nama" type="text" class="form-control " placeholder="Nama Lengkap" aria-label="fullName" aria-describedby="addon-wrapping">
+                        </div>
+                        
+                        <label for="email" class="form-label mt-3">Email:</label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa-regular fa-envelope"></i></span>
+                            <input id="email" type="text" class="form-control" placeholder="Email" aria-label="email" aria-describedby="addon-wrapping" disabled>
+                        </div>
+                        
+                        <label for="alamat" class="form-label mt-3">Alamat:</label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-address-book"></i></span>
+                            <textarea id="alamat" type="text" class="form-control" placeholder="Alamat" aria-label="alamat" aria-describedby="addon-wrapping"></textarea>
+                        </div>
+                        
+                        <label for="gender" class="form-label mt-3">Gender:</label>
+                        <div class="input-group flex-nowrap">
+                            <select class="form-select" id="gender" aria-label="gender" name="gender">
+                                <option value="Pria">Pria</option>
+                                <option value="Wanita">Wanita</option>
+                            </select>
+                        </div>
+                        
+                        <label class="form-label mt-3">Tanggal Lahir:</label>
+                        <div class="input-group flex-nowrap">
+                            <div class="col-5 d-flex">
+                                <select class="form-select rounded-0" id="day" name="day" style="width: 150px;"></select>
+                                <select class="form-select rounded-0 ms-2" id="month"  name="month" style="width: 500px;"></select>
+                                <select class="form-select rounded-0 ms-2" id="year" name="year" style="width: 150px;"></select>
+                            </div>
+                        </div>
+            
+                        <div class="mt-4">
+                            <button class="btn btn-success" id="btn-update" disabled>Update</button>
+            
+                        </div>
+                    </div>
+                    <div class="col-md-6 ps-5" >
+                        <div class="d-flex justify-content-center h-75" style="border-left: 1px solid rgb(189, 189, 189); align-items: center;">
+                            <div class="row my-3">
+                                <div class="col d-flex justify-content-center align-items-center">
+                                    <div class="circle">
+                                        <img class="profile-pic " src="/static/images/profile_image/avatar.jpg">
+                                    </div>
+                                </div>
+                                <div class="p-image">
+                                    <i class="fa fa-camera upload-button"></i>
+                                    <input class="file-upload" type="file" id="inputImage" accept="image/*"/>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<input class="visually-hidden" type="text" value="{{id_user}}" name="" id="user_id" hidden>
+
+{%endblock%}
+
+{%block scripts%}
+
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+
+<script>
+    
+    let changesMade = false;
+
+    $(document).ready(function() {
+        addDate()
+        // alert($('#user_id').val())
+        get_profile()
+
+
+
+
+        // Fungsi Preview Profile Pic
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+        
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    
+
+        $(".file-upload").on('change', function(){
+            readURL(this);
+        });
+        
+        $(".upload-button").on('click', function() {
+        $(".file-upload").click();
+        });
+        // End Profile Pic
+
+
+        
+
+        $('.form-control, .form-select, #inputImage').on('keyup change', function(){
+            changesMade = true
+            $('#btn-update').removeAttr('disabled')
+        });
+        
+        $('#btn-update').click(function(){
+            if (changesMade) {
+                updateProfile();
+                changesMade = false;
+            }
+        })
+
+        
+    });
+
+
+    let addDate = () => {
+        var daySelect = $('#day');
+        var monthSelect = $('#month');
+        var yearSelect = $('#year');
+
+        for (var i = 1; i <= 31; i++) {
+            daySelect.append($('<option>', {
+                value: i,
+                text: i
+            }));
+        }
+        var months = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+
+        for (var i = 0; i < months.length; i++) {
+            monthSelect.append($('<option>', {
+                value: i + 1,
+                text: months[i]
+            }));
+        }
+
+        var currentYear = new Date().getFullYear();
+        for (var i = currentYear; i >= currentYear-100; i--) {
+            yearSelect.append($('<option>', {
+                value: i,
+                text: i
+            }));
+        }
+    }
+
+    function get_profile () {
+
+        let data = {
+            id_user : $('#user_id').val()
+        }
+
+        fetch('http://127.0.0.1:4000/get-profile', {
+            method:'post', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(response => {
+            let tanggal_lahir = new Date(response.tanggal_lahir)
+
+            $('.profile-pic').attr('src', `/static/images/profile_image/${response.profile_image}`)
+            $('#no_telp').val(response.no_telp)
+            $('#nama').val(response.nama)
+            $('#email').val(response.email)
+            $('#alamat').val(response.alamat)
+            $('#gender').val(response.gender)
+
+            $('#day').val(tanggal_lahir.getDate())
+            $('#month').val(tanggal_lahir.getMonth() + 1)
+            $('#year').val(tanggal_lahir.getFullYear())
+        })
+    }
+
+    function updateProfile() {
+        
+        const userData = new FormData();
+        let inputImage = $('#inputImage')[0].files[0];
+
+
+        tanggal_lahir = $('#year').val()+'-'+$('#month').val()+'-'+$('#day').val();
+
+        if (inputImage) {
+            userData.append('profile_image', inputImage);
+        }
+
+        userData.append('id_user', $('#user_id').val());
+        userData.append('nama', $('#nama').val());
+        userData.append('alamat', $('#alamat').val());
+        userData.append('gender', $('#gender').val());
+        userData.append('tanggal_lahir', tanggal_lahir);
+
+
+        fetch('http://127.0.0.1:4000/update-profile', {
+            method:'post', 
+            body: userData
+        })
+        .then(response => response.json())
+        .then(response => {
+            $(window).scrollTop(0)
+            get_profile()
+            $('#btn-update').prop('disabled', true)
+            var bsAlert = new bootstrap.Toast($('#toast-success'));
+            bsAlert.show();
+            
+
+        })
+        .catch(error => {
+            console.error(error)
+            var bsAlert = new bootstrap.Toast($('#toast-failed'));
+            bsAlert.show();
+            
+        })
+    
+    }
+
+
+    
+    
+
+</script>
+{%endblock%}

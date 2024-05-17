@@ -1,0 +1,122 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>Daftar | Urban</title>
+{%endblock%}
+
+{% block navbar %}
+{% endblock %}
+
+{%block body%}
+<header>
+    <div class="mt-5">
+        <a class="position-absolute top-15 bottom-15 start-50 translate-middle" href="{{url_for('home')}}">
+            <img class="mt-3 mb-5" src="/static/images/logo/logo.png" alt="urban" width="150">
+        </a>
+    </div>
+</header>
+
+<div class="row top-25">
+    <div class="col-1"></div>
+    <div class="mt-5 ms-3 col-5">
+        <img  src="\static\images\register_new.png" alt="register_new" width="600">
+    </div>
+    <div class="col-4 mt-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }} 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endwith %}
+        <div class="card shadow border-0">
+            <div class="card-body">
+                <h2 class="text-center fs-3 fw-bold mt-3 mb-1">Daftar Sekarang</h2>
+                <p class="text-center mb-4">Sudah punya akun? <a id="text-login" href="{{url_for('login')}}" style="color: red;">Masuk</a></p>
+                <form method="POST">
+                    <div class="mb-3 mt-3">
+                        <label for="firstName" class="form-label">Nama Lengkap</label>
+                        <input type="text" name="firstName" class="form-control" placeholder="Masukkan nama depan" required> 
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="email" class="form-label">Username:</label>
+                        <input name="inpUser" type="text" class="form-control"  placeholder="Masukkan username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nomor Telepon </label>
+                        <input name="inpTelp" type="text" class="form-control" placeholder="Masukkan nomor telepon (08123456789)" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Alamat</label>
+                        <textarea name="inpAlamat" id="inpAlamat" placeholder="Masukkan Alamat" style="width: 100%"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        <input name="inpEmail" type="email" class="form-control" placeholder="Masukkan Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input name="inpPass" type="password" class="form-control" placeholder="Masukkan Password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Gender</label>
+                        <select class="form-select" aria-label="gender" name="gender">
+                            <option value="1">Pria</option>
+                            <option value="2">Wanita</option>
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Lahir</label>
+                        <div class="col-5 d-flex">
+                            <select class="form-select rounded-0" id="day" name="day" style="width: 150px;"></select>
+                            <select class="form-select rounded-0 ms-2" id="month"  name="month" style="width: 500px;"></select>
+                            <select class="form-select rounded-0 ms-2" id="year" name="year" style="width: 150px;"></select>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary mt-3">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{% block scripts%}
+<script>
+
+$(document).ready(function () {
+    var daySelect = $('#day');
+    var monthSelect = $('#month');
+    var yearSelect = $('#year');
+
+    for (var i = 1; i <= 31; i++) {
+        daySelect.append($('<option>', {
+            value: i,
+            text: i
+        }));
+    }
+    var months = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+
+    for (var i = 0; i < months.length; i++) {
+        monthSelect.append($('<option>', {
+            value: i + 1,
+            text: months[i]
+        }));
+    }
+
+    var currentYear = new Date().getFullYear();
+    for (var i = currentYear; i >= currentYear-100; i--) {
+        yearSelect.append($('<option>', {
+            value: i,
+            text: i
+        }));
+    }
+});
+</script>
+
+{% endblock %}

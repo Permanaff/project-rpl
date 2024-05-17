@@ -1,0 +1,180 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<style>
+
+
+    .btn-nav:focus,
+    .btn-nav:active {
+        border: 0px;
+        
+    }
+    .btn-nav {
+        color: #FEA923;
+        border: 0px;
+    }
+    .btn-nav:hover {
+        color: #8e6626;
+    }
+
+    p, h5 {
+        color: rgb(0, 0, 0);
+    }
+
+
+    .card-body {
+        color: black;
+    }
+
+    #showing, #upcoming {
+        background-color: #37373E;
+    }
+
+    .movie-card {
+        background-color: #37373E;
+    }
+
+    .upcoming-card {
+        background-color: #37373E;
+    }
+
+    .owl-theme .owl-dots .owl-dot.active span {
+        background-color: #FEA923;
+    }
+
+    .owl-dots{
+        position: absolute;
+        right: 0;
+        left: 0;
+        padding-top: 15px;
+        margin: 100px;
+    }
+
+    i {
+        font-size: 40px;
+    }
+
+    .carousel-img {
+        border-radius: 15px
+    }
+
+    /* .carousel-item .carousel-item-next .carousel-item-start img{
+        border-radius: 15px;
+    }
+     */
+    .carousel-inner {
+        margin-bottom: 50px;
+    }
+    #carousel-home {
+        width: 1000px;
+    }
+
+    .carousel-indicators{
+        position: absolute;
+        bottom: -25px;
+    }
+
+
+
+    .carousel-indicators [data-bs-target]  {
+        width: 10px;
+        height: 10px; 
+        border-radius: 50%;
+        background-color: #e3e3e3; 
+        border: none; 
+    }
+    .carousel-indicators [data-bs-target]:hover  {
+        background-color: #869791; 
+    }
+
+    .carousel-indicators .active {
+        background-color: #FEA923; 
+    }
+
+
+
+    
+
+
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+    <div class="container">
+        <div class="d-flex mt-3" style="margin-bottom: -5px;">
+            <div class="container overflow-hidden text-start">
+                <div class="row gx-5">
+                    <div class="col">
+                        <p class="fs-4 fw-bold">UPCOMING</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="container d-flex justify-content-start gap-4 mt-3 flex-wrap" id="upcoming-list">
+            
+        </div>
+    </div>
+
+   
+        
+
+
+{%endblock%}
+
+{%block scripts%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function() {
+        upcoming_movie()
+    
+        
+    });
+
+
+        let upcoming_movie = () =>{
+            fetch('http://127.0.0.1:4000/upcoming-movies',{
+            method: 'POST',})
+                .then(response => response.json())
+                .then(response => {
+                    const containerFilm = document.getElementById('upcoming-list');
+                    let showing_movies = '';
+                    response.showing_movies.forEach(movie => {
+                        showing_movies += `
+                            <div class="movie mt-3 text-center" style="flex-basis: 300px;">
+                                <a href="/movies-page/${movie.id_movie}" style="text-decoration: none; color: black;">
+                                    <div class="advanced-movie"></div>
+                                    <div class="poster-movie" style="width: 287px; height: 421px;">
+                                        <img src="/static/images/poster/${movie.poster}" class="card-img-top img-fluid rounded-3" alt="${movie.title}" >
+                                    </div>
+                                    <div class="movie-desc mt-4">
+                                        <h5 class="fs-6 flex-wrap fw-bold" style="height: 50px;">${movie.title}</h5>
+                                        <p class="fw-light" style="color: black;">${movie.tahun} | ${movie.rating}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                    });
+                    containerFilm.innerHTML = showing_movies;
+            })
+            .catch(error => {
+                console.error('Gagal mengambil data:', error);
+            });
+        }
+
+    
+
+
+
+        
+    
+</script>
+{%endblock%}

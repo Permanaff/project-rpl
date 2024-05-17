@@ -1,0 +1,299 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<style>
+    .schedule-btn{
+        color: black;
+    }
+
+    .btn:disabled {
+        background-color: #f0f0f0; /* Warna latar belakang */
+        color: #6c757d; /* Warna teks */
+        border-color: rgb(85, 91, 95);
+    }
+
+    .text-primary { 
+        color: #f7f9fd;
+    } 
+
+    
+
+   
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+<section class="mt-5" style="background-color: #f7f9fd;">
+    <div class="container mt-5 py-3">
+        <div class="container d-flex justify-content-center">
+            <div class="card rounded-0 w-75 border-0" style="background-color: #fff;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <p class="fs-3 fw-bold text-primary" id="theater-name" style="margin: 0px; padding: 0px;"></p>
+                            <p class="fs-6" id="theater-alamat"></p>
+                            <p class="fs-6" id="theater-telp" style="margin: 0px; padding: 0px;"></p>
+                        </div>
+                        <div class="container"><hr class="mt-3"></div>
+                        <!-- <div class="container d-flex justify-content-center gap-4 mt-5 flex-wrap text-center" id="daftar-produk">
+                            
+                        </div> -->
+                        <!-- <div class="movie mt-3 text-center">
+                            <a href="#" style="text-decoration: none; color: black;">
+                                <div class="advanced-movie"></div>
+                                <div class="poster-movie" id="poster-movie" style="width: 287px; height: 421px;">
+                                   
+                                </div>  
+                                <div class="movie-desc mt-4" id="movie-desc">
+                                    <h5 class="fs-6 flex-wrap">Godzilla x Kong: The New Empire</h5>
+                                    <p class="fw-light" style="color: black;">2024 | 115 Menit | SU </p>
+                                </div>
+                            </a>
+                        </div> -->
+                    </div>
+                    
+                    <div class="row mt-3" id="schedule-list">
+                        <!-- <div class="schedule" id="schedule">
+                            <div class="row">
+                                <div class="col-2 w-20">
+                                    <img src="/static/images/poster/171074852832328_287x421.jpg" class="w-100" alt="">
+                                </div>
+                                <div class="col">
+                                    <p class="fs-5 fw-bold" id="theaters-name" style="padding: 1px; margin: 1px;">Godzilla x Kong: The New Empire</p>
+                                    <p style="font-size: 14px; padding: 1px; margin: 1px;">Action</p>
+                                    <button class="btn btn-outline-light my-2" disabled>SU</button>
+    
+                                    <p style="font-size: 12px; padding: 1px; margin: 1px;"><i class="fa-regular fa-clock"></i> 115 Menit</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                            </div>
+                            
+                            
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <p style="font-size: 14px;">06-04-2024</p>
+                                </div>
+                                <div class="col text-end">
+                                    <p style="font-size: 14px;" class="fw-bold">Rp25.000 + Rp9.000</p>    
+                                </div>
+                            </div>
+    
+                            <div class="time-schedule">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <a class="btn btn-outline-primary schedule-btn"  href="/schedule/SCH001">15:00</a>
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-outline-primary schedule-btn">15:00</button>
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-outline-primary schedule-btn">15:00</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="container"><hr class="mt-3"></div> -->
+                    </div> 
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+
+<div class="modal modal-sm fade" id="modal-jumlah" tabindex="-1" aria-labelledby="modal-jumlah" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content rounded-0">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Select Tickets</h1>
+        </div>
+        <div class="modal-body">
+            <form method="POST" id="select-ticket-form">
+                <div class="form-label">Select Tickets:</div>
+                <select class="form-select" name="selectTickets" id="selectTickets">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+                <input name="inpId" type="hidden" id="inpId"> 
+                <button type="submit" class="btn btn-primary mt-3" id="btn-continue">Continue</button> 
+                <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal">Cancel</button>
+            </form>
+            
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+<script>
+    // let id_theaters;
+
+    // const id_theaters = "{{id_movie}}";
+    const urlParams = new URLSearchParams(window.location.search);
+    let id_theaters = urlParams.get('movie');
+
+    $(document).ready(function() {
+        get_schedule()
+
+
+
+
+        fetch('http://127.0.0.1:4000/get-theater/'+id_theaters,{
+            method: 'POST',})
+            .then(response => response.json())
+            .then(response => {
+                let theater = response.bioskop[0]
+
+                $('#theater-name').append(theater.nama_theaters)
+                $('#theater-alamat').append(theater.alamat)
+                $('#theater-telp').append(`No. Telp : ${theater.no_telp}`)
+                
+                
+        });
+
+    });
+
+    
+    // Fungsi untuk mendapatkan jam sekarang (dalam format jam:menit)
+    function getCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
+
+    let get_schedule = () => {
+        // Dapatkan jam sekarang
+        const currentTime = getCurrentTime();
+        console.log(currentTime)
+
+        fetch('http://127.0.0.1:4000/get-theater-schedule/' + id_theaters, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(response => {
+            const containerschedule = $('#schedule-list');
+            let date = new Date()
+
+            let content = '';
+            let jam;
+            const currentTime = getCurrentTime()
+
+            response.schedule.forEach((schedules, index) => {
+                let tanggal = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+
+                content +=`
+                    <div class="schedule" id="schedule">
+                         <div class="row">
+                            <div class="col-2 w-20">
+                                <img src="/static/images/poster/${schedules.poster}" class="w-100" alt="">
+                            </div>
+                            <div class="col">
+                                <p class="fs-5 fw-semibold " style="padding: 1px; margin: 1px;">${schedules.title}</p>
+                                <p style="font-size: 14px; padding: 1px; margin: 1px;">${schedules.genre}</p>
+                                <button class="btn btn-outline-light my-2" disabled>${schedules.rating}</button>
+
+                                <p style="font-size: 12px; padding: 1px; margin: 1px;"><i class="fa-regular fa-clock"></i> ${schedules.durasi} Menit</p>
+                            </div>
+                        </div>
+
+                        <div id="schedule-container-${schedules.id_movie}"></div>
+
+                        
+                    </div>
+                ` 
+
+                
+            });
+            containerschedule.append(content)  
+             
+            response.schedule.forEach((schedules, index) => {
+                jadwal = schedules.jadwal;
+                
+                const containerschedule = $(`#schedule-container-${schedules.id_movie}`);
+                let scheduleContent = '';
+                let displayedTanggal = {}; 
+                let displayedTime = {}; 
+
+                jadwal.forEach(function(jdwl) {
+                    let scheduleDate = formatDate(jdwl.tanggal)
+                    
+                    if (!displayedTanggal.hasOwnProperty(scheduleDate)) {
+                        displayedTanggal[scheduleDate] = true;
+
+                        containerschedule.append( `
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <p style="font-size: 14px;">${scheduleDate}</p>
+                                </div>
+                                <div class="col text-end">
+                                    <p  style="font-size: 16px;">Rp${schedules.price} + Rp9.000</p>
+                                </div>
+                            </div>
+    
+                            <div class="time-schedule">
+                                <div class="row" id="time-schedule-${scheduleDate}${schedules.id_movie}">
+    
+                                </div>
+                            </div>
+                            <hr>
+                        `)
+                    }            
+                });
+                containerschedule.append(scheduleContent)
+
+                jadwal.forEach(function(jdwl) {
+                    $(`#time-schedule-${formatDate(jdwl.tanggal)}${schedules.id_movie}`).append(`
+                        ${(jdwl.jam > currentTime || jdwl.jam < '07:00') ? `<div class="col-1">
+                            <button class="btn btn-outline-primary schedule-btn" onclick="select_tickets('${jdwl.id_schedule}')">${jdwl.jam}</button>
+                        </div>` : `<div class="col-1">
+                            <button class="btn btn-outline-primary schedule-btn" disabled>${jdwl.jam}</button>
+                        </div>`}
+                    `)
+                })
+            })
+  
+        });
+    };
+    
+
+
+    let formatDate = (tanggal) => {
+        let date = new Date(tanggal);
+        return `${date.getDate(tanggal)}-${date.getMonth()}-${date.getFullYear()}`
+    }
+
+
+
+
+    let select_tickets = (id_schedule) => {
+        console.log('A')
+        $('#modal-jumlah').modal('show'); 
+        $('#inpId').val(id_schedule); 
+    }
+
+
+// window.location.href = `/tickets?booking_id=${data.booking_id}`;
+
+
+</script>
+
+{%endblock%}

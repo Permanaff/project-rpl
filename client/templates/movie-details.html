@@ -1,0 +1,181 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+      }
+      
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        flex-wrap: wrap;
+    }
+
+    .alignMe p {
+        display: inline-block;
+        width: 15%;
+        position: relative;
+        padding-right: 5px; 
+        margin-bottom: 5px;
+        
+    }
+
+        .alignMe p::after {
+        content: ":";
+        position: absolute;
+        right: 10px;
+    }
+
+    .alignMe li {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        text-align: justify;
+    }
+
+    .alignMe span {
+        font-size: 14px;
+    }
+
+    #sinopsis {
+        text-align: justify;
+    }
+
+    .card {
+        background-color: #f7f9fd;
+    }
+
+    .p-custom {
+        color: #0d6efd;
+    }
+
+    p, h5, span, hr {
+        color: black;
+    }
+
+    .btn-custom { 
+        background-color: #0d6efd;
+        border: 0px;
+        
+    }
+    .btn-custom:hover,
+    .btn-custom:focus,
+    .btn-custom:active { 
+        background-color: #2064cc;
+        border: 0px;
+    }
+
+    .light-section {
+        background-color: #f7f9fd;
+    }
+
+    img {
+        border-radius: 5px;
+    }
+
+    .a {
+        color: white;
+    }
+
+    
+    
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+<section class="light-section">
+    <div class="container mt-5">
+        <div class="card border-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                        <div class="movie mt-3 mb-3 text-center">
+                            <div class="advanced-movie"></div>
+                            <div class="poster-movie" id="poster-movie" style="width: 287px; height: 421px;">
+                                
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mt-3">
+                            <p class="fs-4 fw-bold p-custom " id="title" style="font-size: 25px;"></p>
+                            <ul class="alignMe">
+                                <li><p style="font-size: 14px;">Jenis Film</p> <span id="jenis-film"></span></li>
+                                <li><p style="font-size: 14px;">Produser</p> <span id="produser"></span></li>
+                                <li><p style="font-size: 14px;">Sutradara</p> <span id="sutradara"></span></li>
+                                <li><p style="font-size: 14px;">Penulis</p> <span id="penulis"></span></li>
+                                <li><p style="font-size: 14px;">Produksi</p> <span id="produksi"></span></li>
+                                <li><p style="font-size: 14px;">Cast</p> <span id="cast"></span></li>
+                            </ul>
+                            <hr class="hr">
+                            <p class="text-center fs-5 fw-bold" style="margin-bottom: 0px;">Sinopsis</p>
+                            <hr class="hr">
+                            <p style="font-size: 14px;" id="sinopsis"></p>
+        
+                        </div>
+                    </div>
+                    <div class="col-3 d-flex flex-column justify-content-center align-items-center" id="buy-tickets">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block scripts%}
+<script>
+    
+
+    $(document).ready(function() {
+        $("#btn-buy").click(function(){
+            $('#modal-jumlah').modal('show');
+        });
+        
+        
+        let id_movie = "{{id_movies}}"
+
+        fetch('http://127.0.0.1:4000/get-movie-detail/'+id_movie,{
+            method: 'POST',})
+            .then(response => response.json())
+            .then(response => {
+                const containerPoster = document.getElementById('poster-movie');
+                const buy_tickets = document.getElementById('buy-tickets')
+                let poster = '';
+                response.movies.forEach(movie => {
+                    poster += `<img src="/static/images/poster/${movie.poster}" class="card-img-top img-fluid" alt="product-image" placeholder="/static/images/placeholder/placeholder-image.png">`
+                    buy_tickets.innerHTML = `
+                    <a href='' class="btn btn-custom mb-3 w-75" id="btn-trailer" style="color: white;">Watch Trailer</a>
+                    <a href='/schedule-page/${movie.id_movie}' class="btn btn-custom w-75" id="btn-buy" style="color: white;"> Buy Tickets</a>`
+
+                    $('#title').text(movie.title)
+                    $('#jenis-film').text(movie.genre)
+                    $('#produser').text(movie.produser) 
+                    $('#sutradara').text(movie.sutradara) 
+                    $('#penulis').text(movie.penulis) 
+                    $('#produksi').text(movie.produksi) 
+                    $('#cast').text(movie.cast) 
+                    $('#sinopsis').text(movie.sinopsis)
+                });
+                containerPoster.innerHTML = poster
+        });
+
+    });
+
+    
+    
+    
+    
+    
+
+</script>
+{%endblock%}

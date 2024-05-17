@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% block head %}
+<title>New Star Cinplex</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<style>
+    .btn-nav:focus,
+    .btn-nav:active {
+        border: 0px;
+        
+    }
+    .btn-nav {
+        color: #0d6efd;
+        border: 0px;
+    }
+    .btn-nav:hover {
+        color: #2064cc;
+    }
+
+    p {
+        /* color: white; */
+        color: #505050;
+    }
+
+
+    .card-body {
+        color: black;
+    }
+
+    #upcoming {
+        /* background-color: #37373E; */
+        background-color: #f7f9fd;
+    }
+   
+
+
+</style>
+
+
+{%endblock%}
+
+{%block body%}
+    <section id="upcoming" class="my-5 py-3">
+        <div class="container d-flex justify-content-center">
+            <div class="d-flex mt-3" style="margin-bottom: -5px;">
+                <div class="container overflow-hidden text-start">
+                    <div class="row gx-5">
+                        <div class="col">
+                            <!-- <p class="text-center mb-0"><i class="fa-regular fa-face-frown" style="font-size: 150px;"></i></p> -->
+                            <p class="fw-bold text-center my-0 py-0" style="font-size: 200px;">404</p>
+                            <p class="fs-4 fw-bold text-center mt-0 py-0 mb-5">Page Not Found</p>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </section>
+        
+        
+        
+
+
+
+{%endblock%}
+
+{%block scripts%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{%endblock%}

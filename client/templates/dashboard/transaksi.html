@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <!-- Meta -->
+
+    <!-- Google Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <title>NSC - Dashboard</title>
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/static/css/style.min.css">
+    <link rel="stylesheet" href="/static/css/style-table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/css/perfect-scrollbar.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.css">
+
+    <style>
+        .custom-icon {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .content {
+          min-height: 1000px;
+        }
+
+        .table thead th {
+            color: black;
+        }
+
+        td button{
+          color: red;
+        }
+        
+        th, td {
+          text-align: center;
+        }
+
+        select {
+            margin: 0px;
+            height: 40px;
+        }
+
+        .custom-a {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* .custom-a span {
+            position: absolute;
+            top: 5px;
+        } */
+
+        /* .avatar img {
+          width: 50px;
+        } */
+
+        .detail-button {
+          padding: 5px 5px;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+        }
+
+
+
+        .detail-button {
+          color: #007bff;
+          padding: 0px;
+        }
+
+        .detail-button:hover {
+          color: #0056b3;
+        }
+
+        .clock-icon {
+            font-size: 80px;
+            color: #0d6efd;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .alignMe p {
+            display: inline-block;
+            width: 30%;
+            position: relative;
+            padding-right: 5px; 
+            margin-bottom: 5px;
+        }
+
+        .alignMe p::after {
+            content: ":";
+            position: absolute;
+            right: 10px;
+        }
+
+        .danger {
+            color: #dc3545 !important;
+        }
+
+        .danger-icon {
+            color: #dc3545 !important;
+            font-size: 50px;
+        }
+
+        /* li p, li span {
+            color: black;
+        } */
+
+        .modal-body {
+            color: black;
+        }
+
+
+
+
+    </style>
+  </head>
+  <body class="skin-base animate">
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+          <a href="/home" class="sidebar-logo-text d-flex justify-content-center">
+            <img src="/static/images/logo/logo.png" alt="" width="80%">
+          </a>
+        </div><!-- sidebar-header -->
+        <div class="sidebar-search">
+          <div class="search-body">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="form-control" placeholder="Search...">
+          </div><!-- search-body -->
+        </div><!-- sidebar-search -->
+        <div class="sidebar-body">
+          <ul class="nav-sidebar">
+            <li class="nav-item"><a href="/dashboard" class="nav-link"><span class="material-symbols-outlined custom-icon">dashboard</span><span>Dashboard</span></a></li>
+            <!-- <li class="nav-item active show">
+              <a href="" class="nav-link with-sub"><i data-feather="package"></i><span>Dashboard</span></a>
+              <nav class="nav-sub">
+                <a href="" class="sub-link active">Overview</a>
+                <a href="" class="sub-link">Insights</a>
+                <a href="" class="sub-link">Transactions</a>
+                <a href="" class="sub-link">Reports</a>
+              </nav>
+            </li> -->
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-film custom-icon"></i><span>Movies</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/movies-list" class="sub-link">Movie List</a>
+                <a href="/dashboard/add-movies" class="sub-link movie-add visually-hidden">Add Movie</a>
+              </nav>
+            </li>
+            <!-- <li class="nav-item"><a href="" class="nav-link"><i data-feather="shopping-bag"></i><span>Sales Monitoring</span></a></li> -->
+            
+            <li class="nav-item"><a href="/dashboard/theater" class="nav-link"><i class="fa-solid fa-building custom-icon"></i><span>Theaters</span></a></li>
+
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-calendar custom-icon"></i><span>Schedule Theaters</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/schedule-list" class="sub-link">Schedule List</a>
+                <a href="/dashboard/add-schedule" class="sub-link">Add Schedule</a>
+              </nav>
+            </li>
+            <li class="nav-item">
+              <a href="/dashboard/add-carousel" id="add-carousel" class="nav-link with-sub visually-hidden"><i class="fa-regular fa-image custom-icon"></i><span>Carousel Content</span></a>
+              <nav class="nav-sub">
+                    <a href="/dashboard/carousel" class="sub-link">Carousel List</a>
+                    <a href="/dashboard/add-carousel" class="sub-link">Add Carousel</a>
+              </nav>
+            </li>
+          </ul>
+
+          <hr>
+
+          <ul class="nav-sidebar">
+            <li class="nav-item active"><a href="/dashboard/daftar-transaksi" class="nav-link"><i class="fa-solid fa-ticket custom-icon"></i><span>Daftar Transaksi</span></a></li>
+
+            <div class="visually-hidden" id="manage-account">
+              <li class="nav-item"><a href="/dashboard/laporan-penjualan" class="nav-link"><i class="fa-solid fa-chart-simple custom-icon"></i><span>Laporan Penjualan</span></a></li>
+              <li class="nav-item">
+                  <a href="" class="nav-link with-sub"><i data-feather="users"></i><span>Manage Accounts</span></a>
+                  <nav class="nav-sub">
+                    <a href="/dashboard/add-administrator" class="sub-link">Add Administrator</a>
+                    <a href="/dashboard/administrator-list" class="sub-link">Administrator List</a>
+                  </nav>
+                </li>
+            </div>
+        </ul>
+          
+
+        </div><!-- sidebar-body -->
+        <div class="sidebar-footer">
+          <a href="" class="avatar online"><img src="/static/images/avatar/avatar.jpg" alt="" class="avatar-initial"></span></a>
+          <div class="avatar-body">
+            <div class="row">
+              <div class="col-9">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 id="nama-user"></h6>
+                      <!-- <a href="" class="footer-menu dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-settings-4-line"></i></a> -->
+                </div>
+                <span id="tile-user"></span>
+              </div>
+              <div class="col-1 d-flex justify-content-center align-items-center">
+                  <a href="/logout" class="footer-menu"><i class="fa-solid fa-right-from-bracket custom-icon"></i></a>
+              </div>
+            </div>
+          </div><!-- avatar-body -->
+        </div><!-- sidebar-footer -->
+    </div><!-- sidebar -->
+  
+      <div class="content">
+        <div class="content-header">
+          <a id="contentMenu" href="#" class="content-menu d-none d-lg-flex"><i class="fa-solid fa-bars" style="font-size: 20px;"></i></a>
+          <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i data-feather="menu"></i></a>
+          <p class="fs-5 text-center">Dashboard</p>
+        </div><!-- content-header -->
+        <div class="content-body" >
+            <table id="table" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID Booking</th>
+                        <th>ID User</th>
+                        <th>ID Schedule</th>
+                        <th>Tanggal Booking</th>
+                        <th>Jumlah</th>
+                        <th>Total</th>
+                        <th>Metode Bayar</th>
+                        <th>Batas Bayar</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="body-table">
+                   
+                </tbody>
+                
+            </table>  
+
+
+        </div><!-- content-body -->
+        <footer id="footer-bottom" class="border-top" style="margin-top: 150px;">  
+            <p class="text-center mt-2" style="color: #BEBEBE;">&copy; 2024 New Star Cinplex | PT. Karya Media Jaya Bersama.</p>
+        </footer>
+      </div><!-- content -->
+
+      <!----------------- Modal Edit Movie ----------------->
+      <div class="modal fade" id="detail-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Transaksi</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                      <div id="header-success" class="d-flex justify-content-center visually-hidden">
+                        <div class="row text-center pending-header d-flex justify-content-center" style="width: 100%;"> 
+                            <i class="my-3"><span class="material-symbols-outlined clock-icon">
+                                task_alt
+                                </span></i>
+                            <p class="fs-4 fw-bold" style="color: #0d6efd;">Selesai</p>
+                            <hr>
+                            <div id="kode-bayar" class="my-2"></div>
+                        </div>  
+                      </div>
+
+                      <div id="header-pending" class="d-flex justify-content-center visually-hidden">
+                        <div class="row text-center pending-header d-flex justify-content-center" style="width: 100%;"> 
+                            <i class="fa-regular fa-clock clock-icon my-3"></i>
+                            <p class="fs-4 fw-bold" style="color: #0d6efd;">Menunggu Pembayaran</p>
+                            <hr>
+                            <div id="kode-bayar" class="my-2"></div>
+                        </div>  
+                      </div>
+
+                      <div id="header-cancel" class="d-flex justify-content-center visually-hidden">
+                        <div class="row text-center pending-header d-flex justify-content-center align-items-center" style="width: 100%;"> 
+                            <div class="row">
+                                <div class="col">
+                                    <p class="fs-5 text-start fw-bold danger my-0">Dibatalkan</p>
+                                    <p class="fs-6 text-start my-0" id="text-cancel">Pada</p>
+                                    <p class="fs-6 text-start  my-0 visually-hidden" id="text-expire">Melewati batas waktu pembayaran transaksi.</p>
+                                </div>
+                                <div class="col-3 d-flex align-items-center">
+                                    <i class="fa-solid fa-ban danger-icon"></i>
+                                </div>
+                            </div>
+                            <hr class="my-3">
+                        </div>  
+                      </div>
+
+
+                      <div class="detail-body">
+                        <p class="fw-bold" style="font-size: 18px;">Detail Transaksi</p>
+                        <ul class="alignMe">
+                            <li><p style="font-size: 14px;">Date</p><span id="tanggal_booking"></span></li>
+                            <li><p style="font-size: 14px;">Booking Code</p><span id="id_booking"></span> </li>
+                            <li><p style="font-size: 14px;">Judul Film</p><span id="title"></span></li>
+                            <li><p style="font-size: 14px;">No. Seat</p><span id="no_seat"></span></li>
+                            <li><p style="font-size: 14px;">Showtimes</p><span id="movie-time"></span></li>
+                            <li><p style="font-size: 14px;">Drink</p><span id="drink"></span></li>
+                            <!-- <li><p style="font-size: 14px;">Reedemed Time</p> 09-03-2022 11:54</li> -->
+                        </ul>
+                        <hr class="hr">
+                        <div class="row">
+                            <div class="col">
+                                <p class="fs-6 fw-bold">Total Payment</p>
+                            </div>
+                            <div class="col text-end">
+                                <div class="fs-6 fw-bold text-dark" id="total-price"></div>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="/static/jquery/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+    <script src="https://kit.fontawesome.com/fa29c2884b.js" crossorigin="anonymous"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+
+      <script>
+
+
+        $(document).ready(function () {
+         
+          get_data()
+          
+
+        //   $('#detail-modal').modal('show')
+
+        })
+
+        function get_data () { 
+            $('#table').remove
+            const container = $('#body-table')
+            container.empty()
+            fetch('/daftar-transaksi', {method:'post'})
+            .then(response => response.json())
+            .then(response => {
+                
+                let content = '';
+                response.transaksi.forEach(data => {
+
+                    content += `
+                    <tr>
+                        <td>${data.id_booking}</td>
+                        <td>${data.id_user}</td>
+                        <td>${data.id_schedule}</td>
+                        <td>${formatDate(data.tanggal_booking)}</td>
+                        <td>${data.jml_seat}</td>
+                        <td>${data.total}</td>
+                        <td>${data.metode_bayar}</td>
+                        <td>${data.batas_bayar != null ? formatDate(data.batas_bayar) : dateToday()}</td>
+                        <td>${data.status}</td>
+                        <td>
+                            <button class="detail-button btn-cstm" onclick="get_detail_transaksi('${data.id_booking}')"><span class="material-symbols-outlined symbols">info</span></i></button>
+                        </td>
+                    </tr>
+                    `
+                })
+                container.append(content)
+                new DataTable('#table', {
+                    order: [],
+                });
+                
+
+            })
+            .catch(error => {
+                console.error('Gagal mengambil data:', error);
+              })
+        }
+
+        
+
+        // function get_data () { 
+        //     fetch('http://127.0.0.1:4000/daftar-transaksi', {method:'post'})
+        //     .then(response => response.json())
+        //     .then(response => {
+        //         const container = $('#body-table')
+        //         let content = '';
+        //         response.transaksi.forEach(data => {
+
+        //             content += `
+        //             <tr>
+        //                 <td>${data.id_booking}</td>
+        //                 <td>${data.id_user}</td>
+        //                 <td>${data.id_schedule}</td>
+        //                 <td>${formatDate(data.tanggal_booking)}</td>
+        //                 <td>${data.jml_seat}</td>
+        //                 <td>${data.total}</td>
+        //                 <td>${data.metode_bayar}</td>
+        //                 <td>${data.batas_bayar != null ? formatDate(data.batas_bayar) : dateToday()}</td>
+        //                 <td>${data.status}</td>
+        //                 <td>
+        //                     <button class="detail-button btn-cstm" onclick="get_detail_transaksi('${data.id_booking}')"><span class="material-symbols-outlined symbols">info</span></i></button>
+        //                 </td>
+        //             </tr>
+        //             `
+        //         })
+        //         container.append(content)
+        //         new DataTable('#table', {
+        //             order: [[3, 'desc']]
+        //         });
+
+        //     })
+        //     .catch(error => {
+        //         console.error('Gagal mengambil data:', error);
+        //       })
+        // }
+
+        let get_detail_transaksi = (id_booking) => {
+            $('#detail-modal').modal('show')
+            fetch('http://127.0.0.1:4000/get-transaction/'+id_booking, {method: 'POST'})
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Terjadi kesalahan saat mengirim data.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const bookingDetail = data.booking_detail[0];
+                let date = new Date(bookingDetail.tanggal_booking)
+                let month = date.toLocaleString('default', { month: 'short' });
+
+                $('#header-success, #header-pending, #header-cancel, #text-expire').addClass('visually-hidden')
+                if (bookingDetail.status === 'success') {
+                    $('#header-success').removeClass('visually-hidden')
+                } else if (bookingDetail.status === 'pending') {
+                    $('#header-pending').removeClass('visually-hidden')
+                } else {
+                    $('#header-cancel').removeClass('visually-hidden')
+                    $('#text-cancel').text(`Pada ${bookingDetail.batas_bayar}.`)
+
+                    bookingDetail.status === "expire" ? ($('#text-expire').removeClass('visually-hidden')) : '' ; 
+                }
+
+
+                $('#tanggal_booking').text(`${date.getDate()}-${month}-${date.getFullYear()}`)
+                $('#id_booking').text(bookingDetail.id_booking);
+                $('#title').text(bookingDetail.title)
+                $('#movie-time').text(bookingDetail.jam)
+                $('#total-price').text(formatRupiah(bookingDetail.total));
+                $('#drink').text(formatRupiah(bookingDetail.minuman));
+                const noSeats = bookingDetail.no_seat.join(', '); 
+                $('#no_seat').text(noSeats);
+            })
+        }
+            
+
+      </script>
+
+  </body>
+</html>

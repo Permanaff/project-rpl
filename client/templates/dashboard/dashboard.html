@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- Meta -->
+
+    <!-- Google Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <title>NSC - Dashboard</title>
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/static/css/style.min.css">
+    <link rel="stylesheet" href="/static/css/style-table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/css/perfect-scrollbar.min.css">
+
+    <!-- Uploader Plugin Jquery -->
+    <link rel="stylesheet" href="/static/jquery/jquery.uploader.css">
+
+    <style>
+        .custom-icon {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .content {
+          min-height: 1000px;
+        }
+
+        .table thead th {
+            color: black;
+        }
+
+        td button{
+          color: red;
+        }
+        
+        th, td {
+          text-align: center;
+        }
+
+        select {
+            margin: 0px;
+            height: 40px;
+        }
+
+        .custom-a {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* .custom-a span {
+            position: absolute;
+            top: 5px;
+        } */
+
+        /* .avatar img {
+          width: 50px;
+        } */
+
+        .tx-custom {
+            color: #0d6efd;
+        }
+
+        .card-header {
+          background-color: white;
+        }
+
+        .icon-1 {
+          background-color: #b26b00; 
+          width: 50px;
+          height: 50px; 
+          border-radius: 50%; 
+          padding: 15px 0;
+          text-align: center;
+          font-size: 25px;
+        }
+
+        .icon-2 {
+            background-color: #c10069; 
+            width: 50px;
+            height: 50px; 
+            border-radius: 50%; 
+            padding: 15px 0;
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .icon-3 {
+            background-color: #0818b2; 
+            width: 50px;
+            height: 50px; 
+            border-radius: 50%; 
+            padding: 13px 0;
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .icon-4 {
+            background-color: #005253; 
+            width: 50px;
+            height: 50px; 
+            border-radius: 50%; 
+            padding: 13px 0;
+            text-align: center;
+            font-size: 25px;
+        }
+
+
+
+    </style>
+  </head>
+  <body class="skin-base animate">
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+          <a href="/home" class="sidebar-logo-text d-flex justify-content-center">
+            <img src="/static/images/logo/logo.png" alt="" width="80%">
+          </a>
+        </div><!-- sidebar-header -->
+        <div class="sidebar-search">
+          <div class="search-body">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="form-control" placeholder="Search...">
+          </div><!-- search-body -->
+        </div><!-- sidebar-search -->
+        <div class="sidebar-body">
+          <ul class="nav-sidebar">
+            <li class="nav-item active"><a href="/dashboard" class="nav-link"><span class="material-symbols-outlined custom-icon">dashboard</span><span>Dashboard</span></a></li>
+            <!-- <li class="nav-item active show">
+              <a href="" class="nav-link with-sub"><i data-feather="package"></i><span>Dashboard</span></a>
+              <nav class="nav-sub">
+                <a href="" class="sub-link active">Overview</a>
+                <a href="" class="sub-link">Insights</a>
+                <a href="" class="sub-link">Transactions</a>
+                <a href="" class="sub-link">Reports</a>
+              </nav>
+            </li> -->
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-film custom-icon"></i><span>Movies</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/movies-list" class="sub-link">Movie List</a>
+                <a href="/dashboard/add-movies" class="sub-link movie-add visually-hidden">Add Movie</a>
+              </nav>
+            </li>
+            <!-- <li class="nav-item"><a href="" class="nav-link"><i data-feather="shopping-bag"></i><span>Sales Monitoring</span></a></li> -->
+            
+            <li class="nav-item"><a href="/dashboard/theater" class="nav-link"><i class="fa-solid fa-building custom-icon"></i><span>Theaters</span></a></li>
+
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-calendar custom-icon"></i><span>Schedule Theaters</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/schedule-list" class="sub-link">Schedule List</a>
+                <a href="/dashboard/add-schedule" class="sub-link">Add Schedule</a>
+              </nav>
+            </li>
+            <li class="nav-item">
+              <a href="/dashboard/add-carousel" id="add-carousel" class="nav-link with-sub visually-hidden"><i class="fa-regular fa-image custom-icon"></i><span>Carousel Content</span></a>
+              <nav class="nav-sub">
+                    <a href="/dashboard/carousel" class="sub-link">Carousel List</a>
+                    <a href="/dashboard/add-carousel" class="sub-link">Add Carousel</a>
+              </nav>
+            </li>
+          </ul>
+
+          <hr>
+
+          <ul class="nav-sidebar">
+            <li class="nav-item"><a href="/dashboard/daftar-transaksi" class="nav-link"><i class="fa-solid fa-ticket custom-icon"></i><span>Daftar Transaksi</span></a></li>
+            
+            <div class="visually-hidden" id="manage-account">
+              <li class="nav-item"><a href="/dashboard/laporan-penjualan" class="nav-link"><i class="fa-solid fa-chart-simple custom-icon"></i><span>Laporan Penjualan</span></a></li>
+              <li class="nav-item">
+                <a href="" class="nav-link with-sub"><i data-feather="users"></i><span>Manage Accounts</span></a>
+                  <nav class="nav-sub">
+                    <a href="/dashboard/add-administrator" class="sub-link">Add Administrator</a>
+                    <a href="/dashboard/administrator-list" class="sub-link">Administrator List</a>
+                  </nav>
+                </li>
+            </div>
+        </ul>
+          
+
+        </div><!-- sidebar-body -->
+        <div class="sidebar-footer">
+          <a href="" class="avatar online"><img src="/static/images/avatar/avatar.jpg" alt="" class="avatar-initial"></span></a>
+          <div class="avatar-body">
+            <div class="row">
+              <div class="col-9">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 id="nama-user"></h6>
+                      <!-- <a href="" class="footer-menu dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-settings-4-line"></i></a> -->
+                </div>
+                <span id="tile-user"></span>
+              </div>
+              <div class="col-1 d-flex justify-content-center align-items-center">
+                  <a href="/logout" class="footer-menu"><i class="fa-solid fa-right-from-bracket custom-icon"></i></a>
+              </div>
+            </div>
+          </div><!-- avatar-body -->
+        </div><!-- sidebar-footer -->
+      </div><!-- sidebar -->
+  
+      <div class="content">
+        <div class="content-header">
+          <a id="contentMenu" href="#" class="content-menu d-none d-lg-flex"><i class="fa-solid fa-bars" style="font-size: 20px;"></i></a>
+          <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i data-feather="menu"></i></a>
+          <p class="fs-5 text-center">Dashboard</p>
+        </div><!-- content-header -->
+        <div class="content-body" >
+            <div class="container" style="min-height: 500px;">
+                <div id="alert-container"></div>
+                <!-- Content Di sini -->
+
+                <div class="row">
+
+                  <div class="col">
+
+                    <div class="row">
+                      <div class="col">
+                        <div class="card rounded-0 border-0 mb-0" style="background-color: #ffab2d;">
+                          <div class="row">
+                            <div class="col-3 pe-0 d-flex justify-content-center align-items-center">
+                              <i class="fa-solid fa-cart-shopping icon-1 text-white"></i>
+                            </div>
+                            <div class="col ps-0">
+                              <div class="card-header border-0 p-1" style="background-color: #ffab2d;">
+                                <p class="fs-5 fw-bold my-0 mx-2 text-white">Jumlah Transaksi Bulan Ini</p>
+                                <hr class="mt-1 mb-0 mx-2" style="background-color: #b26b00;">
+                              </div>
+                              <div class="card-body mt-0 p-1 ">
+                                <p class="fs-3 my-0 me-3 text-end fw-bold text-white"  id="bulanan">0</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+    
+                      <div class="col">
+                        <div class="card rounded-0 border-0 mb-0" style="background-color: #ff3ca6;">
+                          <div class="row">
+                            <div class="col-3 pe-0 d-flex justify-content-center align-items-center">
+                              <i class="fa-solid fa-cart-shopping icon-2 text-white"></i>
+                            </div>
+                            <div class="col ps-0">
+                              <div class="card-header border-0 p-1" style="background-color: #ff3ca6;">
+                                <p class="fs-5 fw-bold my-0 me-2 text-white" >Jumlah Transaksi Hari Ini</p>
+                                <hr class="mt-1 mb-0 me-2 " style="background-color: #c10069;">
+                              </div>
+                              <div class="card-body mt-0 p-1 ">
+                                <p class="fs-3 my-0 me-3 text-end fw-bold text-white"  id="harian">0</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mt-3">
+                      <div class="col">
+                        <div class="card rounded-0 border-0 mb-0" style="background-color: #3f50f6;">
+                          <div class="row">
+                            <div class="col-3 pe-0 d-flex justify-content-center align-items-center">
+                              <i class="fa-solid fa-wallet icon-3 text-white"></i>
+                            </div>
+                            <div class="col ps-0">
+                              <div class="card-header border-0 p-1" style="background-color: #3f50f6;">
+                                <p class="fs-5 fw-bold my-0 mx-2 text-white">Total Pendapatan Bulan Ini</p>
+                                <hr class="mt-1 mb-0 mx-2" style="background-color: #0818b2;">
+                              </div>
+                              <div class="card-body mt-0 p-1 ">
+                                <p class="fs-3 my-0 me-3 text-end fw-bold text-white"  id="pendapatan-bulanan">0</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+    
+                      <div class="col">
+                        <div class="card rounded-0 border-0 mb-0" style="background-color: #00cccd;">
+                          <div class="row">
+                            <div class="col-3 pe-0 d-flex justify-content-center align-items-center">
+                              <i class="fa-solid fa-wallet icon-4 text-white"></i>
+                            </div>
+                            <div class="col ps-0">
+                              <div class="card-header border-0 p-1" style="background-color: #00cccd;">
+                                <p class="fs-5 fw-bold my-0 me-2 text-white" >Total Pendapatan Hari Ini</p>
+                                <hr class="mt-1 mb-0 me-2 " style="background-color: #005253;">
+                              </div>
+                              <div class="card-body mt-0 p-1 ">
+                                <p class="fs-3 my-0 me-3 text-end fw-bold text-white"  id="pendapatan-harian">0</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-4 visually-hidden id="movie-popular">
+                    <div class="col-auto">
+                      <div class="card rounded-0 mb-0">
+                        <div class="card-header border-0 p-1">
+                          <p class="fs-4 text-center tx-custom fw-bold my-0 mx-2">Populer Minggu Ini</p>
+                          <hr class="mt-1 mb-0 mx-2 ">
+                        </div>
+                        <div class="card-body mt-0 p-3 ">
+                          <img src="" alt="" id="poster-image">
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  
+
+
+                </div>
+
+                <!-- Akhir Content -->
+            </div>
+
+            
+            
+            
+            
+            
+            
+            
+          </div><!-- content-body -->
+          <footer id="footer-bottom" class="border-top" style="margin-top: 150px;">  
+              <p class="text-center mt-2" style="color: #BEBEBE;">&copy; 2024 New Star Cinplex | PT. Karya Media Jaya Bersama.</p>
+          </footer>
+      </div><!-- content -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="/static/jquery/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+    <script src="https://kit.fontawesome.com/fa29c2884b.js" crossorigin="anonymous"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/jquery/jquery.uploader.min.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+      <script>
+
+
+        $(document).ready(function () {
+          get_data()
+          moviePopular()
+
+        })
+
+        function get_data () {
+          fetch('/dashboard-data', {method:'post'})
+          .then(response => response.json())
+          .then(response => {
+            console.log(response)
+            
+            $('#bulanan').text(response.bulan_ini == null ? 0 : response.bulan_ini)
+            $('#harian').text(response.bulan_ini == null ? 0 : response.bulan_ini)
+            $('#pendapatan-bulanan').text(response.total_bulan_ini == null ? 0 : response.total_bulan_ini)
+            $('#pendapatan-harian').text(response.total_hari_ini == null ? 0 : response.total_hari_ini)
+
+          })
+          .catch(error => {
+            console.error(error)
+          })
+        }
+
+        let moviePopular = () => {
+          fetch('http://127.0.0.1:4000/most-movie', {method:'post'})
+          .then(response => response.json())
+          .then(response => {
+            console.log(response)
+            response.poster == null ? $('#movie-popular').remove() : $('#movie-popular').removeClass('visually-hidden');
+            $('#poster-image').attr('src', `/static/images/poster/${response.poster}`)
+
+          })
+          .catch(error => {
+            console.error(error)
+          })
+        }
+
+
+    
+            
+
+      </script>
+
+
+  </body>
+</html>

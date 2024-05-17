@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <!-- Meta -->
+
+    <!-- Google Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <title>NSC - Dashboard</title>
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="sha512-OQDNdI5rpnZ0BRhhJc+btbbtnxaj+LdQFeh0V9/igiEPDiWE2fG+ZsXl0JEH+bjXKPJ3zcXqNyP4/F/NegVdZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/static/css/style.min.css">
+    <link rel="stylesheet" href="/static/css/style-table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/css/perfect-scrollbar.min.css" integrity="sha512-ygIxOy3hmN2fzGeNqys7ymuBgwSCet0LVfqQbWY10AszPMn2rB9JY0eoG0m1pySicu+nvORrBmhHVSt7+GI9VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.css">
+    
+
+    <style>
+        .custom-icon {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .table thead th {
+            color: black;
+        }
+
+        td button{
+          color: red;
+        }
+        
+        th, td {
+          text-align: center;
+        }
+
+        select {
+            margin: 0px;
+            height: 40px;
+        }
+
+        .custom-a {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* .custom-a span {
+            position: absolute;
+            top: 5px;
+        } */
+
+
+
+    </style>
+  </head>
+  <body class="skin-base animate">
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+          <a href="/home" class="sidebar-logo-text d-flex justify-content-center">
+            <img src="/static/images/logo/logo.png" alt="" width="80%">
+          </a>
+        </div><!-- sidebar-header -->
+        <div class="sidebar-search">
+          <div class="search-body">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="form-control" placeholder="Search...">
+          </div><!-- search-body -->
+        </div><!-- sidebar-search -->
+        <div class="sidebar-body">
+          <ul class="nav-sidebar">
+            <li class="nav-item"><a href="/dashboard" class="nav-link"><span class="material-symbols-outlined custom-icon">dashboard</span><span>Dashboard</span></a></li>
+            <li class="nav-item">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-film custom-icon"></i><span>Movies</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/movies-list" class="sub-link">Movie List</a>
+                <a href="/dashboard/add-movies" class="sub-link movie-add visually-hidden">Add Movie</a>
+              </nav>
+            </li>
+
+            <li class="nav-item"><a href="/dashboard/theater" class="nav-link"><i class="fa-solid fa-building custom-icon"></i><span>Theaters</span></a></li>
+
+            <li class="nav-item active show">
+              <a href="" class="nav-link with-sub"><i class="fa-solid fa-calendar custom-icon"></i><span>Schedule Theaters</span></a>
+              <nav class="nav-sub">
+                <a href="/dashboard/schedule-list" class="sub-link ">Schedule List</a>
+                <a href="/dashboard/add-schedule" class="sub-link active">Add Schedule</a>
+              </nav>
+            </li>
+            <li class="nav-item">
+              <a href="/dashboard/add-carousel" id="add-carousel" class="nav-link with-sub visually-hidden"><i class="fa-regular fa-image custom-icon"></i><span>Carousel Content</span></a>
+              <nav class="nav-sub">
+                    <a href="/dashboard/carousel" class="sub-link">Carousel List</a>
+                    <a href="/dashboard/add-carousel" class="sub-link">Add Carousel</a>
+              </nav>
+            </li>
+          </ul>
+  
+          <hr>
+  
+          <ul class="nav-sidebar">
+              <li class="nav-item"><a href="/dashboard/daftar-transaksi" class="nav-link"><i class="fa-solid fa-ticket custom-icon"></i><span>Daftar Transaksi</span></a></li>
+
+              <div class="visually-hidden" id="manage-account">
+                <li class="nav-item"><a href="/dashboard/laporan-penjualan" class="nav-link"><i class="fa-solid fa-chart-simple custom-icon"></i><span>Laporan Penjualan</span></a></li>
+                <li class="nav-item">
+                    <a href="" class="nav-link with-sub"><i data-feather="users"></i><span>Manage Accounts</span></a>
+                    <nav class="nav-sub">
+                      <a href="/dashboard/add-administrator" class="sub-link">Add Administrator</a>
+                      <a href="/dashboard/administrator-list" class="sub-link">Administrator List</a>
+                    </nav>
+                  </li>
+              </div>
+          </ul>
+  
+  
+        
+        </div><!-- sidebar-body -->
+        <div class="sidebar-footer">
+          <a href="" class="avatar online"><img src="/static/images/avatar/avatar.jpg" alt="" class="avatar-initial"></span></a>
+          <div class="avatar-body">
+            <div class="row">
+              <div class="col-9">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 id="nama-user"></h6>
+                </div>
+                <span id="tile-user"></span>
+              </div>
+              <div class="col-1 d-flex justify-content-center align-items-center">
+                  <a href="/logout" class="footer-menu"><i class="fa-solid fa-right-from-bracket custom-icon"></i></a>
+              </div>
+            </div>
+          </div><!-- avatar-body -->
+        </div><!-- sidebar-footer -->
+      </div><!-- sidebar -->
+  
+      <div class="content">
+        <div class="content-header">
+          <a id="contentMenu" href="#" class="content-menu d-none d-lg-flex"><i class="fa-solid fa-bars" style="font-size: 20px;"></i></a>
+          <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i data-feather="menu"></i></a>
+          <p class="fs-5 text-center">Add Jadwal</p>
+        </div><!-- content-header -->
+        <div class="content-body">
+            <div class="container col-md-9">
+                <div class="px-0 mx-0" id="alert-container"></div>
+                
+                <div class="form-group row mb-4">
+                    <div class="row">
+                        <label for="inputNamaProduk" class="form-label">Tanggal</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-5 d-flex ps-0">
+                            <select class="form-select text-center" id="day" name="day" style="width: 150px;"></select>
+                            <select class="form-select ms-2" id="month"  name="month" style="width: 500px;"></select>
+                            <select class="form-select ms-2 text-center" id="year" name="year" style="width: 160px;"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-4 mt-4">
+                    <label for="inputNamaProduk" class="form-label">Judul Film</label>
+                    <select name="movie-title" id="movie-title" class="form-select">
+                        <option value="0" selected>Pilih Judul Film</option>
+                        
+                    </select>
+                </div>
+
+                <div class="form-group row mb-4 mt-4">
+                    <label for="inputNamaProduk" class="form-label">Theater</label>
+                    <select name="theater" id="theater-select" class="form-select">
+                        <option value="0" selected>Pilih Nama Theater</option>
+                        
+                    </select>
+                </div>
+
+                <div class="form-group row g-3">
+                    <div class="col ps-0">
+                        <label for="inputNamaProduk" class="form-label">Jam</label>
+                        <input type="time" class="form-control time" id="time" placeholder="time" aria-label="time" value="00:00">
+                        <!-- <input class="form-control time" type="text"  value="" id="time" aria-label="Jam"> -->
+                    </div>
+                    <div class="col pe-0">
+                        <label for="inputNamaProduk" class="form-label">Studio</label>
+                        <select name="studio-select" id="studio-select" class="form-select">
+                            <option value="1">Studio 1</option>
+                            <option value="2">Studio 2</option>
+                            <option value="3">Studio 3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-5">
+                    <button class="btn btn-success w-50" onclick="if (!$(this).prop('disabled')) save_schedule()" id="saveButton">Simpan</button>
+                </div>
+
+            </div>
+            
+            
+
+            <footer id="footer-bottom" class="border-top" style="margin-top: 150px;">
+                
+                <p class="text-center mt-2" style="color: #BEBEBE;">&copy; 2024 New Star Cinplex | PT. Karya Media Jaya Bersama.</p>
+            </footer>
+        
+
+        
+    
+    
+           
+         
+        </div><!-- content-body -->
+      </div><!-- content -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="/static/jquery/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+    <script src="https://kit.fontawesome.com/fa29c2884b.js" crossorigin="anonymous"></script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js" integrity="sha512-X41/A5OSxoi5uqtS6Krhqz8QyyD8E/ZbN7B4IaBSgqPLRbWVuXJXr9UwOujstj71SoVxh5vxgy7kmtd17xrJRw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    <script src="/static/jquery/jquery.dateandtime.js"></script>
+
+    
+
+      <script>
+        let dateNow = new Date();
+        $(document).ready(function () {
+            add_option_data()
+            add_option_title()
+            add_option_theater()
+            $('.time').val(currentTime());
+
+            // $(function(){
+            //   $('.time').dateAndTime();
+            //   $('.time').val(currentTime());
+            // });
+
+
+            $('#year, #month, #day, .time, #studio-select, #theater-select, #movie-title').change(function() {
+                if ($('#theater-select').val() != 0 || $('#movie-title').val() != 0) {
+                  checkSchedule();
+                }
+                
+            });
+     
+
+        });
+
+        let add_option_data = () => {
+            var daySelect = $('#day');
+            var monthSelect = $('#month');
+            var yearSelect = $('#year');
+
+            for (var i = 1; i <= 31; i++) {
+                daySelect.append($('<option>', {
+                    value: i,
+                    text: i
+                }));
+            }
+            var months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+
+            for (var i = 0; i < months.length; i++) {
+                monthSelect.append($('<option>', {
+                    value: i + 1,
+                    text: months[i]
+                }));
+            }
+
+            var currentYear = new Date().getFullYear();
+            for (var i = currentYear; i >= currentYear-100; i--) {
+                yearSelect.append($('<option>', {
+                    value: i,
+                    text: i
+                }));
+            }
+
+            $('#day').val(dateNow.getDate())
+            $('#month').val(dateNow.getMonth()+1)
+            $('#year').val(dateNow.getFullYear())
+        }
+
+        let add_option_title = () => {
+            fetch('http://127.0.0.1:4000/get-all-movies', {method:'POST'})
+                .then(response => response.json())
+                .then(response => {
+                const selectTitle = $('#movie-title')
+                let content=''; 
+                console.log(response)
+                response.movies.forEach(movie => {
+                    content += `
+                        <option value="${movie.id_movie}">${movie.title}</option>
+                    `
+                });
+                selectTitle.append(content)
+                })
+
+                .catch(error => {
+                console.error('Gagal mengambil data:', error);
+                })
+        }
+        let add_option_theater = () => {
+            fetch('http://127.0.0.1:4000/get-all-theaters', {method:'POST'})
+                .then(response => response.json())
+                .then(response => {
+                const selectTheater = $('#theater-select')
+                let content=''; 
+                console.log(response)
+                response.theaters.forEach(theater => {
+                    content += `
+                        <option value="${theater.id_theaters}">${theater.nama_theaters}</option>
+                    `
+                });
+                selectTheater.append(content)
+                })
+
+                .catch(error => {
+                console.error('Gagal mengambil data:', error);
+                })
+        }
+
+        function save_schedule () {
+            let month = parseInt($('#month').val());
+            let tanggal = $('#year').val()+'-'+month+'-'+$('#day').val()
+
+
+
+            data = {
+                'tanggal' : tanggal,
+                'id_movie' : $('#movie-title').val(),
+                'id_theater' : $('#theater-select').val(),
+                'jam' : $('.time').val(),
+                'studio' : $('#studio-select').val() 
+            }
+
+
+            fetch('http://127.0.0.1:4000/add-schedule', {
+                method:'POST',
+                headers: {
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(response => {
+                    $('#alert-container').empty()
+                    console.log(response)
+                    $(window).scrollTop(0);
+                    $('#alert-container').append('<div class="alert alert-success" role="alert">Berhasil Menambahkan Jadwal!</div>');
+                    $('#movie-title').val('')
+                    $('#jam').val('')
+                })
+
+                .catch(error => {
+                    print(error)
+                    $('#alert-container').append('<div class="alert alert-danger" role="alert">Gagal Menambahkan Jadwal!</div>');
+                })
+        }
+
+        
+
+        function currentTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+
+      function checkSchedule() {
+        let tanggal_schedule = $('#year').val()+'-'+$('#month').val()+'-'+$('#day').val();
+        let jam = $('.time').val();
+        let studio = $('#studio-select').val();
+        let id_movie = $('#movie-title').val();
+        let theater = $('#theater-select').val();
+
+
+        data = {
+          'tanggal_schedule' : tanggal_schedule, 
+          'jam' : jam, 
+          'studio' : studio,
+          'id_movie' : id_movie,
+          'id_theaters' : theater
+        }
+
+        fetch('http://127.0.0.1:4000/check-schedule', {
+          method:'post',
+          headers: {
+                          'Content-Type': 'application/json' 
+                      },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(response => {
+          console.log(response)
+          if (response === true) {
+            $('#alert-container').empty()
+            $('#saveButton').attr('disabled', 'disabled');
+            $('#alert-container').append('<div class="alert alert-danger" role="alert">Jadwal Bertabrakan!</div>');
+          } else {
+            $('#saveButton').removeAttr('disabled');
+            $('#alert-container').empty()
+          }
+        })
+        .catch(error => {
+          console.error(error)
+        })
+
+
+
+      }
+
+
+        
+        
+        </script>
+        
+        </body>
+        </html>

@@ -12,7 +12,7 @@ from datetime import datetime
 snap = midtransclient.Snap(
     # Set to true if you want Production Environment (accept real transaction).
     is_production=False,
-    server_key= 'SB-Mid-server-MkWPtSUBmoSSOJ4UkdcyilCC'
+    server_key= '<Your Server Key>'
 )
 def get_token(userData, items, subtotal, booking_id, id_schedule, seat, qr_code, id_user, id_drink, id_seat) : 
     # Build API parameter
